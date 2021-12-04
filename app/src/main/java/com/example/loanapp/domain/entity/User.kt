@@ -1,8 +1,10 @@
 package com.example.loanapp.domain.entity
 
-import com.google.gson.annotations.SerializedName
-
 data class User(
-    @SerializedName("name") val name: String,
-    @SerializedName("role") val role: String
+    val user_id: Int = 0,
+    val name: String? = null,
+    val role: String? = null,
+    val token: String? = null,
+    val error: String? = null,
+    val errorResponse: StateResponse? = null
 )

@@ -1,6 +1,5 @@
 package com.example.loanapp.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentLoginBinding
 import com.example.loanapp.presentation.LoginViewModel
+import com.example.loanapp.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 const val TOKEN = "BEARER_TOKEN"
@@ -36,17 +36,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        loginViewModel.token.observe(viewLifecycleOwner, { token ->
-            val pref = activity?.getPreferences(Context.MODE_PRIVATE)
-            pref?.let {
-                with(it.edit()) {
-                    putString(TOKEN, token)
-                    apply()
-                }
-            }
-            Toast.makeText(context, token, Toast.LENGTH_SHORT).show()
-        })
+        login()
 
         binding.apply {
             txtGoToRegister.setOnClickListener {
@@ -54,17 +44,60 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
             btnLogin.setOnClickListener {
                 if (checkIfLoginEmpty() && checkIfPasswordEmpty()) {
-                    val login = binding.loginInput.text.toString()
+                    val name = binding.loginInput.text.toString()
                     val password = binding.passwordInput.text.toString()
-                    loginViewModel.login(login, password)
-                    Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
-                    navigateToLoansFragment()
+                    loginViewModel.login(name, password)
                 }
             }
         }
-
-
     }
+
+    private fun login() {
+        loginViewModel.loginResult.observe(viewLifecycleOwner, { event ->
+            event.getContentIfNotHandled()?.let { resource ->
+                when (resource.status) {
+
+                    Status.LOADING -> {
+                        Toast.makeText(context, "LOGGING IN", Toast.LENGTH_SHORT).show()
+                    }
+
+                    Status.SUCCESS -> {
+                        resource.data?.let {
+                            navigateToLoansFragment()
+                        }
+                    }
+
+                    Status.ERROR -> {
+
+                    }
+                }
+            }
+        })
+    }
+
+    /* private fun login(login: String, password: String) {
+         loginViewModel.login(login, password)
+         loginViewModel.token.observe(viewLifecycleOwner, { response ->
+             if (response.isSuccessful) {
+                 val pref = activity?.getPreferences(Context.MODE_PRIVATE)
+                 pref?.let {
+                     with(it.edit()) {
+                         putString(TOKEN, response.body())
+                         apply()
+                     }
+                 }
+                 findNavController().navigate(R.id.loansFragment)
+             } else {
+                 if (response.code() == 404) {
+                     Toast.makeText(
+                         context,
+                         "Данный аккаунт не найден, проверьте правильность ввода данных",
+                         Toast.LENGTH_SHORT
+                     ).show()
+                 }
+             }
+         })
+     }*/
 
 
     override fun onDestroyView() {

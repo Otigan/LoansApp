@@ -25,17 +25,20 @@
         android:id="@+id/txt_field_login"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
-        android:hint="Введите ваш логин"
+        android:hint="@string/text_input_layout_login_hint"
         app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/txt_field_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/guideline_top">
+        app:layout_constraintTop_toBottomOf="@id/guideline_top"
+        app:layout_constraintVertical_chainStyle="packed">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -44,16 +47,21 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Введите ваш логин"
+        android:hint="@string/text_input_layout_password_hint"
         app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/btn_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@id/txt_field_login">
+        app:layout_constraintTop_toBottomOf="@id/txt_field_login"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:inputType="textPassword"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -61,8 +69,8 @@
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Войти в аккаунт"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/btn_login"
+        app:layout_constraintBottom_toTopOf="@id/txt_go_to_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@id/txt_field_password" />
@@ -71,7 +79,7 @@
         android:id="@+id/txt_go_to_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Нет аккаунта? Зарегистрируйтесь"
+        android:text="@string/txt_dont_have_account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline_start"

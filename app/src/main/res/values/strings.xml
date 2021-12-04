@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">LoanApp</string>
+    <string name="text_input_layout_login_hint">Введите ваш логин</string>
+    <string name="text_input_layout_password_hint">Введите ваш пароль</string>
+    <string name="btn_login">Войти в аккаунт</string>
+    <string name="btn_register">Зарегистрироваться</string>
+    <string name="txt_dont_have_account">Нет аккаунта? Зарегистрируйтесь</string>
+    <string name="text_input_layout_pass_conf">Повторите ваш пароль</string>
 </resources>

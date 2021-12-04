@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentRegisterBinding
 import com.example.loanapp.presentation.RegisterViewModel
+import com.example.loanapp.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,8 +31,20 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        registerViewModel.user.observe(viewLifecycleOwner, {
-            Toast.makeText(context, it.name, Toast.LENGTH_SHORT).show()
+        registerViewModel.user.observe(viewLifecycleOwner, { event ->
+            event.getContentIfNotHandled()?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        Toast.makeText(context, resource.data?.name, Toast.LENGTH_SHORT).show()
+                    }
+                    Status.ERROR -> {
+                        Toast.makeText(context, "error", Toast.LENGTH_SHORT).show()
+                    }
+                    Status.LOADING -> {
+                        Toast.makeText(context, "LOADING", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         })
 
         binding.apply {
