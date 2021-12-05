@@ -1,4 +1,4 @@
-package com.example.loanapp.data.remote.data_source
+package com.example.loanapp.data.remote.data_source.auth
 
 import com.example.loanapp.data.api.LoansApi
 import com.example.loanapp.data.remote.model.RegisterRequestBody

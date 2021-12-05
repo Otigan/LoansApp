@@ -1,4 +1,4 @@
-package com.example.loanapp.ui
+package com.example.loanapp.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentRegisterBinding
-import com.example.loanapp.presentation.RegisterViewModel
+import com.example.loanapp.presentation.auth.RegisterViewModel
 import com.example.loanapp.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 

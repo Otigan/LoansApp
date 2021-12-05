@@ -1,18 +1,24 @@
-package com.example.loanapp.ui
+package com.example.loanapp.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
+import com.example.loanapp.data.local.LoginDataStorePref
 import com.example.loanapp.databinding.FragmentLoginBinding
-import com.example.loanapp.presentation.LoginViewModel
+import com.example.loanapp.presentation.auth.LoginViewModel
 import com.example.loanapp.util.Status
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 const val TOKEN = "BEARER_TOKEN"
 
@@ -22,6 +28,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val loginViewModel by viewModels<LoginViewModel>()
+
+    @Inject
+    lateinit var loginDataStorePref: LoginDataStorePref
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,10 +55,21 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 if (checkIfLoginEmpty() && checkIfPasswordEmpty()) {
                     val name = binding.loginInput.text.toString()
                     val password = binding.passwordInput.text.toString()
+                    saveLogin(name)
                     loginViewModel.login(name, password)
                 }
             }
         }
+    }
+
+    private fun saveLogin(userName: String) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            loginDataStorePref.loginDataStore.edit { login ->
+                val currentValue = login[stringPreferencesKey("login")] ?: ""
+                login[stringPreferencesKey("login")] = userName
+            }
+        }
+
     }
 
     private fun login() {

@@ -7,6 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.loanapp.R
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
     }
-
 
 
     override fun onSupportNavigateUp(): Boolean {

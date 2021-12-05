@@ -19,13 +19,13 @@ import javax.inject.Singleton
 @Singleton
 class LoginDataStorePref @Inject constructor(@ApplicationContext private val context: Context) {
 
-    private object PreferenceKey {
+    object PreferenceKey {
         val name = stringPreferencesKey("login")
     }
 
     private val Context.loginDataStore: DataStore<Preferences> by preferencesDataStore(name = "login")
 
-    private val loginDataStore: DataStore<Preferences> = context.loginDataStore
+    val loginDataStore: DataStore<Preferences> = context.loginDataStore
 
     suspend fun saveLoginToDataStore(name: String) {
         loginDataStore.edit { preference ->
@@ -33,7 +33,7 @@ class LoginDataStorePref @Inject constructor(@ApplicationContext private val con
         }
     }
 
-    val preferencesFlow: Flow<String> = context.loginDataStore.data
+    val preferencesFlow: Flow<String> = loginDataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 Log.d("LoginDataStore", exception.message.toString())

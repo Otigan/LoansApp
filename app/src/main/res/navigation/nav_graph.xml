@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.loanapp.ui.LoginFragment"
+        android:name="com.example.loanapp.ui.auth.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
@@ -19,16 +19,25 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.loanapp.ui.RegisterFragment"
+        android:name="com.example.loanapp.ui.auth.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_loansFragment"
             app:destination="@id/loansFragment" />
     </fragment>
     <fragment
         android:id="@+id/loansFragment"
-        android:name="com.example.loanapp.ui.LoansFragment"
+        android:name="com.example.loanapp.ui.loans.LoansFragment"
         android:label="fragment_loans"
-        tools:layout="@layout/fragment_loans" />
+        tools:layout="@layout/fragment_loans">
+        <action
+            android:id="@+id/action_loansFragment_to_requestLoanFragment"
+            app:destination="@id/requestLoanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestLoanFragment"
+        android:name="com.example.loanapp.ui.loans.RequestLoanFragment"
+        android:label="fragment_request_loan"
+        tools:layout="@layout/fragment_request_loan" />
 </navigation>

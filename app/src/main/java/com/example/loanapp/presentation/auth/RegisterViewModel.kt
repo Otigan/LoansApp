@@ -1,4 +1,4 @@
-package com.example.loanapp.presentation
+package com.example.loanapp.presentation.auth
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

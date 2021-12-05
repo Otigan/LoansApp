@@ -2,7 +2,7 @@ package com.example.loanapp.data.repository
 
 import com.example.loanapp.data.local.db.UserDao
 import com.example.loanapp.data.local.model.UserEntity
-import com.example.loanapp.data.remote.data_source.RegisterDataSource
+import com.example.loanapp.data.remote.data_source.auth.RegisterDataSource
 import com.example.loanapp.data.remote.mapper.UserDtoMapper
 import com.example.loanapp.data.remote.model.RegisterRequestBody
 import com.example.loanapp.data.remote.model.UserDto

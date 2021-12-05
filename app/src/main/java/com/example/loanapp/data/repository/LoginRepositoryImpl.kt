@@ -3,9 +3,7 @@ package com.example.loanapp.data.repository
 import com.example.loanapp.data.local.LoginDataStorePref
 import com.example.loanapp.data.local.db.UserDao
 import com.example.loanapp.data.local.model.UserEntityMapper
-import com.example.loanapp.data.remote.data_source.LoginDataSource
-import com.example.loanapp.data.remote.mapper.AuthTokenDtoMapper
-import com.example.loanapp.data.remote.model.AuthTokenDto
+import com.example.loanapp.data.remote.data_source.auth.LoginDataSource
 import com.example.loanapp.data.remote.model.LoginRequestBody
 import com.example.loanapp.domain.entity.AuthToken
 import com.example.loanapp.domain.entity.ResponseType
@@ -25,7 +23,7 @@ class LoginRepositoryImpl @Inject constructor(
 ) :
     LoginRepository {
 
-    override suspend fun login(loginRequestBody: LoginRequestBody): Flow<Resource<AuthToken>> =
+    override suspend fun login(loginRequestBody: LoginRequestBody): Flow<Resource<User>> =
         loginDataSource.login(loginRequestBody)
             .map { response ->
                 if (response.isSuccessful && response.code() == 200) {
@@ -33,28 +31,63 @@ class LoginRepositoryImpl @Inject constructor(
                         saveAuthToken(token, loginRequestBody.name)
                         token.let {
                             Resource.success(
-                                AuthTokenDtoMapper().mapToDomainModel(AuthTokenDto(it))
+                                User(token = it)
                             )
                         }
-                    } ?: returnUnknownError()
+                    } ?: returnNoTokenFound()
                 } else {
                     response.errorBody()?.let { responseBody ->
-                        val errorMessage =
-                            JSONObject(responseBody.charStream().readText()).getString("error")
+                        val errorMessage = JSONObject(
+                            responseBody.charStream().readText()
+                        ).getString("error")
                         Resource.error(
                             errorMessage,
-                            AuthToken(
+                            User(
                                 errorResponse = StateResponse(
                                     message = errorMessage,
                                     errorResponseType = ResponseType.Dialog
                                 )
                             )
+
                         )
-                    } ?: returnUnknownError()
+                    } ?: returnNoTokenFound()
                 }
             }
 
-    suspend fun checkPreviousAuthUser(): Flow<Resource<User>> {
+
+    /* private suspend fun newLogin(loginRequestBody: LoginRequestBody): Flow<Resource<User>> =
+         loginDataSource.login(loginRequestBody)
+             .map { response ->
+                 if (response.isSuccessful && response.code() == 200) {
+                     response.body()?.let { token ->
+                         saveAuthToken(token, loginRequestBody.name)
+                         token.let {
+                             Resource.success(
+                                 User(token = it)
+                             )
+                         }
+                     } ?: returnNoTokenFound()
+                 } else {
+                     response.errorBody()?.let { responseBody ->
+                         val errorMessage = JSONObject(
+                             responseBody.charStream().readText()
+                         ).getString("error")
+                         Resource.error(
+                             errorMessage,
+                             User(
+                                 errorResponse = StateResponse(
+                                     message = errorMessage,
+                                     errorResponseType = ResponseType.Dialog
+                                 )
+                             )
+
+                         )
+                     } ?: returnNoTokenFound()
+                 }
+             }*/
+
+
+    private suspend fun checkPreviousAuthUser(): Flow<Resource<User>> {
         return loginDataStorePref.preferencesFlow
             .map { login ->
                 if (login.isBlank()) {
@@ -73,6 +106,8 @@ class LoginRepositoryImpl @Inject constructor(
                 }
             }
     }
+
+
 
     private suspend fun saveAuthToken(token: String?, name: String) {
         userDao.insertToken(token!!, name)
