@@ -1,18 +1,21 @@
 package com.example.loanapp.domain.repository
 
-import com.example.loanapp.data.remote.model.LoanDto
 import com.example.loanapp.data.remote.model.LoanRequestBody
+import com.example.loanapp.domain.Resource
+import com.example.loanapp.domain.entity.Loan
 import com.example.loanapp.domain.entity.LoanCondition
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
 
 interface LoanRepository {
 
-    suspend fun getAllLoans(name: String): Flow<Response<List<LoanDto>>>
+    suspend fun getAllLoans(token: String): Flow<Resource<List<Loan>>>
 
-    suspend fun requestLoan(name: String, loanRequestBody: LoanRequestBody): Flow<Response<LoanDto>>
+    suspend fun requestLoan(
+        token: String,
+        loanRequestBody: LoanRequestBody
+    ): Flow<Resource<Loan>>
 
-    suspend fun getLoanCondition(name: String): Flow<Response<LoanCondition>>
+    suspend fun getLoanCondition(token: String): Flow<Resource<LoanCondition>>
 
 
 }

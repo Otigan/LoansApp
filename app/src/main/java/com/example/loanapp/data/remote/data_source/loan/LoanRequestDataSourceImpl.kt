@@ -1,6 +1,6 @@
 package com.example.loanapp.data.remote.data_source.loan
 
-import com.example.loanapp.data.api.LoansApi
+import com.example.loanapp.data.remote.api.LoansApi
 import com.example.loanapp.data.remote.model.LoanDto
 import com.example.loanapp.data.remote.model.LoanRequestBody
 import kotlinx.coroutines.flow.Flow

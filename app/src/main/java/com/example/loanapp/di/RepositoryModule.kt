@@ -1,8 +1,8 @@
 package com.example.loanapp.di
 
-import com.example.loanapp.data.repository.LoanRepositoryImpl
-import com.example.loanapp.data.repository.LoginRepositoryImpl
-import com.example.loanapp.data.repository.RegisterRepositoryImpl
+import com.example.loanapp.data.remote.repository.LoanRepositoryImpl
+import com.example.loanapp.data.remote.repository.LoginRepositoryImpl
+import com.example.loanapp.data.remote.repository.RegisterRepositoryImpl
 import com.example.loanapp.domain.repository.LoanRepository
 import com.example.loanapp.domain.repository.LoginRepository
 import com.example.loanapp.domain.repository.RegisterRepository

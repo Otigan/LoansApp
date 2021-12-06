@@ -1,4 +1,4 @@
-package com.example.loanapp.data.api
+package com.example.loanapp.data.remote.api
 
 import com.example.loanapp.data.remote.model.*
 import com.example.loanapp.domain.entity.LoanCondition

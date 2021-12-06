@@ -3,12 +3,12 @@ package com.example.loanapp.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loanapp.data.remote.model.LoanDto
 import com.example.loanapp.databinding.ItemLoanBinding
+import com.example.loanapp.domain.entity.Loan
 
 class LoansAdapter : RecyclerView.Adapter<LoansAdapter.LoanViewHolder>() {
 
-    var loans: List<LoanDto> = emptyList()
+    var loans: List<Loan> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -17,7 +17,7 @@ class LoansAdapter : RecyclerView.Adapter<LoansAdapter.LoanViewHolder>() {
     class LoanViewHolder(private val binding: ItemLoanBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(loanItem: LoanDto) {
+        fun bind(loanItem: Loan) {
             binding.txtLoanId.text = loanItem.id.toString()
             binding.txtLoanAmount.text = loanItem.amount.toString()
         }

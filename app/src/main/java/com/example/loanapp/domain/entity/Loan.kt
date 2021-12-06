@@ -10,6 +10,4 @@ data class Loan(
     val period: Int = 0,
     val phoneNumber: String = "",
     val state: String = "",
-    val error: String? = null,
-    val errorResponse: StateResponse? = null
 )

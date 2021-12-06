@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/loansFragment"
-        android:name="com.example.loanapp.ui.loans.LoansFragment"
+        android:name="com.example.loanapp.ui.loan.LoansFragment"
         android:label="fragment_loans"
         tools:layout="@layout/fragment_loans">
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/requestLoanFragment"
-        android:name="com.example.loanapp.ui.loans.RequestLoanFragment"
+        android:name="com.example.loanapp.ui.loan.RequestLoanFragment"
         android:label="fragment_request_loan"
         tools:layout="@layout/fragment_request_loan" />
 </navigation>

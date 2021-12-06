@@ -1,4 +1,4 @@
-package com.example.loanapp.ui.loans
+package com.example.loanapp.ui.loan
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,17 +7,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
-import com.example.loanapp.data.local.LoginDataStorePref
 import com.example.loanapp.databinding.FragmentLoansBinding
+import com.example.loanapp.presentation.loan.LoanEvent
 import com.example.loanapp.presentation.loan.LoansViewModel
 import com.example.loanapp.ui.adapter.LoansAdapter
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import javax.inject.Inject
-
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class LoansFragment : Fragment(R.layout.fragment_loans) {
@@ -26,9 +25,6 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
     private val binding get() = _binding!!
     private lateinit var loansAdapter: LoansAdapter
     private val loansViewModel by viewModels<LoansViewModel>()
-
-    @Inject
-    lateinit var loginDataStorePref: LoginDataStorePref
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,12 +40,21 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
 
         loansAdapter = LoansAdapter()
 
-
-        val name: Flow<String> = loginDataStorePref.loginDataStore.data.map { preferences ->
-            preferences[LoginDataStorePref.PreferenceKey.name] ?: ""
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            loansViewModel.apply {
+                getAllLoans()
+                loansEventFlow.collect { event ->
+                    when (event) {
+                        is LoanEvent.ShowSnackbar -> {
+                            Snackbar.make(binding.root, event.message, Snackbar.LENGTH_SHORT).show()
+                        }
+                        is LoanEvent.Success -> {
+                            loansAdapter.loans = event.loans
+                        }
+                    }
+                }
+            }
         }
-
-        loansViewModel.getAllLoans(name)
 
         binding.apply {
             recyclerViewLoans.apply {
@@ -60,11 +65,6 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
                 navigateToRequestLoanFragment()
             }
         }
-
-        loansViewModel.loans.observe(viewLifecycleOwner, {
-            loansAdapter.loans = it
-            Toast.makeText(context, it[0].id.toString(), Toast.LENGTH_SHORT).show()
-        })
     }
 
     private fun navigateToRequestLoanFragment() {

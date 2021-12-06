@@ -9,6 +9,10 @@
     <string name="text_input_layout_pass_conf">Повторите ваш пароль</string>
 
     <!--  RequestLoanFragment  -->
+    <string name="txt_view_loan_conditions">Условия выдачи займа</string>
+    <string name="txt_view_loan_max_amount">Максимальная сумма займа: %d</string>
+    <string name="txt_view_loan_percent">Процент займа: %f </string>
+    <string name="txt_view_loan_period">Период займа: %d</string>
     <string name="edit_txt_request_loan_amount">Введите сумму займа</string>
     <string name="edit_txt_request_loan_firstName">Введите ваше имя</string>
     <string name="edit_txt_request_loan_lastName">Введите вашу фамилию</string>

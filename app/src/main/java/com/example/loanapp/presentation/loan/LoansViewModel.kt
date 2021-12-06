@@ -1,32 +1,47 @@
 package com.example.loanapp.presentation.loan
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.loanapp.data.remote.model.LoanDto
-import com.example.loanapp.domain.use_case.GetAllLoansUseCase
+import com.example.loanapp.domain.Resource
+import com.example.loanapp.domain.entity.Loan
+import com.example.loanapp.domain.use_case.auth.TokenUseCase
+import com.example.loanapp.domain.use_case.loan.GetAllLoansUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+sealed class LoanEvent {
+
+    data class Success(val loans: List<Loan>) : LoanEvent()
+    data class ShowSnackbar(val message: String) : LoanEvent()
+}
+
 @HiltViewModel
-class LoansViewModel @Inject constructor(private val getAllLoansUseCase: GetAllLoansUseCase) :
+class LoansViewModel @Inject constructor(
+    private val getAllLoansUseCase: GetAllLoansUseCase,
+    private val tokenUseCase: TokenUseCase
+) :
     ViewModel() {
 
-    private val _loans = MutableLiveData<List<LoanDto>>()
-    val loans get() = _loans
+    private val loansEventChannel = Channel<LoanEvent>()
+    val loansEventFlow = loansEventChannel.receiveAsFlow()
 
 
-    fun getAllLoans(name: Flow<String>) =
+    fun getAllLoans() =
         viewModelScope.launch {
-            name.collect {
-                getAllLoansUseCase(it).collect { response ->
-                    response.body()?.let { loansDto ->
-                        _loans.postValue(loansDto)
-                        Log.d("LoansViewModel", "getAllLoans:${loansDto[0].id}")
+            tokenUseCase.getSavedToken().collect { token ->
+                getAllLoansUseCase(token).collect { resource ->
+                    when (resource) {
+                        is Resource.Success -> {
+                            loansEventChannel.send(LoanEvent.Success(resource.data!!))
+                        }
+                        is Resource.Error -> {
+                            loansEventChannel.send(LoanEvent.ShowSnackbar(resource.errorMessage!!))
+                        }
+                        is Resource.Loading -> TODO()
                     }
                 }
             }

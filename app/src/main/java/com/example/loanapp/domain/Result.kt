@@ -1,6 +1,10 @@
 package com.example.loanapp.domain
 
-sealed class Result<out T : Any> {
-    data class Success<out T : Any>(val data: T) : Result<T>()
-    data class Error(val exception: Exception) : Result<Nothing>()
+sealed class Resource<T>(
+    val data: T? = null,
+    val errorMessage: String? = null
+) {
+    class Success<T>(data: T) : Resource<T>(data)
+    class Loading<T>(data: T? = null) : Resource<T>(data)
+    class Error<T>(errorMessage: String, data: T? = null) : Resource<T>(data, errorMessage)
 }

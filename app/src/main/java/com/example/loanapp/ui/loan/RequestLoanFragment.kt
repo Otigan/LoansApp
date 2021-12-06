@@ -1,22 +1,21 @@
-package com.example.loanapp.ui.loans
+package com.example.loanapp.ui.loan
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.loanapp.R
-import com.example.loanapp.data.local.LoginDataStorePref
 import com.example.loanapp.data.remote.model.LoanRequestBody
 import com.example.loanapp.databinding.FragmentRequestLoanBinding
 import com.example.loanapp.domain.entity.LoanCondition
+import com.example.loanapp.presentation.loan.LoanRequestEvent
 import com.example.loanapp.presentation.loan.RequestLoanViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import javax.inject.Inject
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class RequestLoanFragment : Fragment(R.layout.fragment_request_loan) {
@@ -24,10 +23,7 @@ class RequestLoanFragment : Fragment(R.layout.fragment_request_loan) {
     private var _binding: FragmentRequestLoanBinding? = null
     private val binding get() = _binding!!
     private val requestLoanViewModel by viewModels<RequestLoanViewModel>()
-    private lateinit var loanCondition: LoanCondition
-
-    @Inject
-    lateinit var loginDataStorePref: LoginDataStorePref
+    private lateinit var loadedLoanCondition: LoanCondition
 
 
     override fun onCreateView(
@@ -42,25 +38,37 @@ class RequestLoanFragment : Fragment(R.layout.fragment_request_loan) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val name: Flow<String> = loginDataStorePref.loginDataStore.data.map { preferences ->
-            preferences[LoginDataStorePref.PreferenceKey.name] ?: ""
+        requestLoanViewModel.getLoanCondition()
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            requestLoanViewModel.loanConditionFlow.collect { event ->
+                when (event) {
+                    is LoanRequestEvent.LoanConditionSuccess -> {
+                        binding.apply {
+                            event.loanCondition.also { loanCondition ->
+                                loadedLoanCondition = loanCondition
+                                txtViewLoanMaxAmount.text = getString(
+                                    R.string.txt_view_loan_max_amount,
+                                    loanCondition.maxAmount
+                                )
+                                txtViewLoanPercent.text = getString(
+                                    R.string.txt_view_loan_percent,
+                                    loanCondition.percent
+                                )
+                                txtViewLoanPeriod.text = getString(
+                                    R.string.txt_view_loan_period,
+                                    loanCondition.period
+                                )
+                            }
+                        }
+                    }
+                    is LoanRequestEvent.ShowSnackbar -> {
+                        Snackbar.make(binding.root, event.message, Snackbar.LENGTH_SHORT).show()
+                    }
+                    is LoanRequestEvent.Success -> TODO()
+                }
+            }
         }
-
-        requestLoanViewModel.getLoanCondition(name)
-
-        requestLoanViewModel.loanCondition.observe(viewLifecycleOwner, {
-            loanCondition = it
-            Toast.makeText(
-                context,
-                "${it.maxAmount} ${it.percent}% ${it.period}",
-                Toast.LENGTH_SHORT
-            ).show()
-        })
-
-        requestLoanViewModel.loan.observe(viewLifecycleOwner, {
-            Toast.makeText(context, it.state, Toast.LENGTH_SHORT).show()
-        })
-
 
         binding.btnRequestLoan.setOnClickListener {
             val amount = binding.editTxtAmount.text.toString().toInt()
@@ -71,8 +79,8 @@ class RequestLoanFragment : Fragment(R.layout.fragment_request_loan) {
             val phoneNumber = binding.editTextPhoneNumber.text.toString()
 
             val loan = LoanRequestBody(amount, firstName, lastName, percent, period, phoneNumber)
-            if (checkLoanCondition(loan, loanCondition)) {
-                requestLoanViewModel.requestLoan(name, loan)
+            if (checkLoanCondition(loan, loadedLoanCondition)) {
+                requestLoanViewModel.requestLoan(loan)
             }
         }
 

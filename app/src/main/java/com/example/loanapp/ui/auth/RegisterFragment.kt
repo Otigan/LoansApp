@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentRegisterBinding
+import com.example.loanapp.presentation.auth.LoginViewModel
 import com.example.loanapp.presentation.auth.RegisterViewModel
-import com.example.loanapp.util.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,6 +20,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
     private val registerViewModel by viewModels<RegisterViewModel>()
+    private val loginViewModel by viewModels<LoginViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,18 +34,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         registerViewModel.user.observe(viewLifecycleOwner, { event ->
-            event.getContentIfNotHandled()?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        Toast.makeText(context, resource.data?.name, Toast.LENGTH_SHORT).show()
-                    }
-                    Status.ERROR -> {
-                        Toast.makeText(context, "error", Toast.LENGTH_SHORT).show()
-                    }
-                    Status.LOADING -> {
-                        Toast.makeText(context, "LOADING", Toast.LENGTH_SHORT).show()
-                    }
-                }
+            event.getContentIfNotHandled()?.body()?.let {
+                loginViewModel.login(it.name!!, it.password!!)
+                findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoansFragment())
             }
         })
 
