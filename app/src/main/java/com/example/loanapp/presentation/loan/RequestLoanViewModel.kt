@@ -16,10 +16,16 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
+sealed class LoanConditionEvent {
+    data class LoanConditionSuccess(val loanCondition: LoanCondition) : LoanConditionEvent()
+    data class ShowSnackBar(val message: String) : LoanConditionEvent()
+}
+
 sealed class LoanRequestEvent {
-    data class LoanConditionSuccess(val loanCondition: LoanCondition) : LoanRequestEvent()
     data class Success(val loan: Loan) : LoanRequestEvent()
     data class ShowSnackbar(val message: String) : LoanRequestEvent()
+    data class ShowProgressBar(val message: String) : LoanRequestEvent()
 }
 
 @HiltViewModel
@@ -30,7 +36,7 @@ class RequestLoanViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val loanConditionChannel = Channel<LoanRequestEvent>()
+    private val loanConditionChannel = Channel<LoanConditionEvent>()
     val loanConditionFlow = loanConditionChannel.receiveAsFlow()
 
     private val loanChannel = Channel<LoanRequestEvent>()
@@ -47,7 +53,9 @@ class RequestLoanViewModel @Inject constructor(
                         is Resource.Error -> {
                             loanChannel.send(LoanRequestEvent.ShowSnackbar(resource.errorMessage!!))
                         }
-                        is Resource.Loading -> TODO()
+                        is Resource.Loading -> {
+                            loanChannel.send(LoanRequestEvent.ShowProgressBar("Success"))
+                        }
                     }
                 }
             }
@@ -60,10 +68,14 @@ class RequestLoanViewModel @Inject constructor(
                 getLoanConditionUseCase(token).collect { resource ->
                     when (resource) {
                         is Resource.Error -> {
-                            loanConditionChannel.send(LoanRequestEvent.ShowSnackbar(resource.errorMessage!!))
+                            loanConditionChannel.send(LoanConditionEvent.ShowSnackBar(resource.errorMessage!!))
                         }
                         is Resource.Success -> {
-                            loanConditionChannel.send(LoanRequestEvent.LoanConditionSuccess(resource.data!!))
+                            loanConditionChannel.send(
+                                LoanConditionEvent.LoanConditionSuccess(
+                                    resource.data!!
+                                )
+                            )
                         }
                         is Resource.Loading -> TODO()
                     }

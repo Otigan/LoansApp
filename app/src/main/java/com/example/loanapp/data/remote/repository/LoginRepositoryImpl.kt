@@ -9,24 +9,29 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
-    private val loginDataSource: LoginDataSource
-) :
-    LoginRepository {
+    private val loginDataSource: LoginDataSource,
+) : LoginRepository {
 
     override suspend fun login(loginRequestBody: LoginRequestBody): Flow<Resource<String>> =
         loginDataSource.login(loginRequestBody).map { response ->
             if (response.isSuccessful && response.code() == 200) {
-                response.body()?.let { token ->
-                    Resource.Success(token)
-                } ?: Resource.Error("Произошла неизвестная ошибка")
+                val token = response.body()!!
+                Resource.Success(token)
             } else {
-                val errorCode = response.code()
-                if (errorCode == 404) {
-                    Resource.Error("Аккаунт не найден")
-                } else {
-                    Resource.Error("Произошла неизвестная ошибка")
+                when (response.code()) {
+                    401 -> {
+                        Resource.Error("Пользователь не авторизован")
+                    }
+                    403 -> {
+                        Resource.Error("Forbidden")
+                    }
+                    404 -> {
+                        Resource.Error("Аккаунт не найден")
+                    }
+                    else -> {
+                        Resource.Error("Произошла неизвестная ошибка 2")
+                    }
                 }
             }
         }
-
 }

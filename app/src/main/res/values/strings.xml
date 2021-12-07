@@ -20,4 +20,9 @@
     <string name="edit_txt_request_loan_period">Введите период займа</string>
     <string name="edit_txt_request_loan_phone_number">Введите ваш номер телефона</string>
     <string name="btn_request_loan">Получить займ</string>
+
+    <!--  LoansFragment  -->
+    <string name="txt_view_loan_id">Номер заявки: %d</string>
+    <string name="txt_view_loan_status">%s</string>
+    <string name="txt_view_amount">%d RUB</string>
 </resources>

@@ -28,13 +28,21 @@ class LoanRepositoryImpl @Inject constructor(
                         LoanDtoMapper().mapToDomainModel(loanDto)
                     }
                     Resource.Success(loans)
-                } ?: Resource.Error("Произошла неизвестная ошибка")
+                } ?: Resource.Error("Произошла неизвестная ошибка 1")
             } else {
-                val errorCode = response.code()
-                if (errorCode == 401) {
-                    Resource.Error("Пользователь не авторизован")
-                } else {
-                    Resource.Error("Произошла неизвестная ошибка")
+                when (response.code()) {
+                    401 -> {
+                        Resource.Error("Пользователь не авторизован")
+                    }
+                    403 -> {
+                        Resource.Error("Forbidden")
+                    }
+                    404 -> {
+                        Resource.Error("Not found")
+                    }
+                    else -> {
+                        Resource.Error("Произошла неизвестная ошибка 2")
+                    }
                 }
             }
         }
@@ -53,11 +61,19 @@ class LoanRepositoryImpl @Inject constructor(
                     }
                 } ?: Resource.Error("Произошла неизвестная ошибка")
             } else {
-                val errorCode = response.code()
-                if (errorCode == 401) {
-                    Resource.Error("Пользователь не авторизован")
-                } else {
-                    Resource.Error("Произошла неизвестная ошибка")
+                when (response.code()) {
+                    401 -> {
+                        Resource.Error("Пользователь не авторизован")
+                    }
+                    403 -> {
+                        Resource.Error("Forbidden")
+                    }
+                    404 -> {
+                        Resource.Error("Not found")
+                    }
+                    else -> {
+                        Resource.Error("Произошла неизвестная ошибка 2")
+                    }
                 }
             }
 
@@ -70,11 +86,19 @@ class LoanRepositoryImpl @Inject constructor(
                     Resource.Success(it)
                 } ?: Resource.Error("Произошла неизвестная ошибка")
             } else {
-                val errorCode = response.code()
-                if (errorCode == 401) {
-                    Resource.Error("Пользователь не авторизован")
-                } else {
-                    Resource.Error("Произошла неизвестная ошибка")
+                when (response.code()) {
+                    401 -> {
+                        Resource.Error("Пользователь не авторизован")
+                    }
+                    403 -> {
+                        Resource.Error("Forbidden")
+                    }
+                    404 -> {
+                        Resource.Error("Not found")
+                    }
+                    else -> {
+                        Resource.Error("Произошла неизвестная ошибка 2")
+                    }
                 }
             }
         }

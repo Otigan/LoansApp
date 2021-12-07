@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -40,6 +39,7 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
 
         loansAdapter = LoansAdapter()
 
+
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             loansViewModel.apply {
                 getAllLoans()
@@ -49,7 +49,7 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
                             Snackbar.make(binding.root, event.message, Snackbar.LENGTH_SHORT).show()
                         }
                         is LoanEvent.Success -> {
-                            loansAdapter.loans = event.loans
+                            loansAdapter.submitList(event.loans)
                         }
                     }
                 }

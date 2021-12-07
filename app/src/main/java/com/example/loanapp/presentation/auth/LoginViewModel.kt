@@ -19,7 +19,6 @@ sealed class AuthEvent {
     data class ShowSnackbar(val message: String) : AuthEvent()
 }
 
-
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
@@ -29,10 +28,10 @@ class LoginViewModel @Inject constructor(
     private val loginEventChannel = Channel<AuthEvent>()
     val loginEventFlow = loginEventChannel.receiveAsFlow()
 
-    fun skipLogin() = viewModelScope.launch {
+    fun loginFromToken() = viewModelScope.launch {
         tokenUseCase.getSavedToken().collect { token ->
             if (token.isNotBlank()) {
-                loginEventChannel.send(AuthEvent.Success("success login"))
+                loginEventChannel.send(AuthEvent.Success("from token"))
             }
         }
     }
@@ -50,7 +49,6 @@ class LoginViewModel @Inject constructor(
                 }
                 is Resource.Success -> {
                     saveToken(resource.data!!)
-                    loginEventChannel.send(AuthEvent.Success("Success login"))
                 }
                 is Resource.Loading -> TODO()
             }

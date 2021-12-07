@@ -1,5 +1,6 @@
 package com.example.loanapp.domain.entity
 
+
 data class Loan(
     val amount: Int = 0,
     val date: String = "",
