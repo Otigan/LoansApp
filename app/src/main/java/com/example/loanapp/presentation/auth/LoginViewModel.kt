@@ -17,6 +17,7 @@ sealed class Event {
 
     data class Success(val message: String) : Event()
     data class Error(val message: String) : Event()
+    data class Loading(val message: String) : Event()
 }
 
 @HiltViewModel
@@ -37,20 +38,22 @@ class LoginViewModel @Inject constructor(
     }
 
     fun login(name: String, password: String) = viewModelScope.launch {
-        loginUseCase(
+
+        val resource = loginUseCase(
             LoginRequestBody(
                 name = name,
                 password = password
             )
-        ).collect { resource ->
-            when (resource) {
-                is Resource.Error -> {
-                    loginEventChannel.send(Event.Error(resource.errorMessage!!))
-                }
-                is Resource.Success -> {
-                    saveToken(resource.data!!)
-                }
-                is Resource.Loading -> TODO()
+        )
+        when (resource) {
+            is Resource.Error -> {
+                loginEventChannel.send(Event.Error(resource.errorMessage!!))
+            }
+            is Resource.Loading -> {
+                loginEventChannel.send(Event.Loading(""))
+            }
+            is Resource.Success -> {
+                saveToken(resource.data!!)
             }
         }
     }

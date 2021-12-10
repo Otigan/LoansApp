@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
+import com.example.loanapp.data.local.mapper.LoanEntityMapper
 import com.example.loanapp.databinding.FragmentLoansBinding
 import com.example.loanapp.domain.entity.Loan
 import com.example.loanapp.presentation.loan.LoanEvent
@@ -47,10 +48,18 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
                 loansEventFlow.collect { event ->
                     when (event) {
                         is LoanEvent.ShowSnackbar -> {
+                            binding.progressBarLoans.visibility = View.GONE
                             binding.root.displaySnackbar(event.message)
                         }
                         is LoanEvent.Success -> {
-                            loansAdapter.submitList(event.loans)
+                            binding.progressBarLoans.visibility = View.GONE
+                            val loans = event.loans.map { loanEntity ->
+                                LoanEntityMapper().mapToLoan(loanEntity)
+                            }
+                            loansAdapter.submitList(loans)
+                        }
+                        is LoanEvent.ShowProgressBar -> {
+                            binding.progressBarLoans.visibility = View.VISIBLE
                         }
                     }
                 }

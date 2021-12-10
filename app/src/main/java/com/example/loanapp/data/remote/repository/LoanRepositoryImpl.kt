@@ -1,5 +1,7 @@
 package com.example.loanapp.data.remote.repository
 
+import androidx.room.withTransaction
+import com.example.loanapp.data.local.db.LoansDatabase
 import com.example.loanapp.data.remote.data_source.loan.LoanConditionDataSource
 import com.example.loanapp.data.remote.data_source.loan.LoanDataSource
 import com.example.loanapp.data.remote.data_source.loan.LoanRequestDataSource
@@ -11,6 +13,7 @@ import com.example.loanapp.domain.entity.LoanCondition
 import com.example.loanapp.domain.repository.LoanRepository
 import com.example.loanapp.util.Common.returnUnknownError
 import com.example.loanapp.util.Resource
+import com.example.loanapp.util.networkBoundResource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -19,11 +22,31 @@ class LoanRepositoryImpl @Inject constructor(
     private val loanDataSource: LoanDataSource,
     private val loanConditionDataSource: LoanConditionDataSource,
     private val loanRequestDataSource: LoanRequestDataSource,
-    private val loanRepositoryErrorHandler: LoanRepositoryErrorHandler
-) :
-    LoanRepository {
+    private val loanRepositoryErrorHandler: LoanRepositoryErrorHandler,
+    private val loansDatabase: LoansDatabase,
+) : LoanRepository {
 
-    override suspend fun getAllLoans(token: String): Flow<Resource<List<Loan>>> =
+    private val loansDao = loansDatabase.getLoansDao()
+
+    override fun getLoans(token: String) = networkBoundResource(
+        query = {
+            loansDao.getAllLoans()
+        },
+        fetch = {
+            loanDataSource.getAllLoans(token)
+        },
+        saveFetchResult = { loan_list ->
+            val loans = loan_list.map { loanDto ->
+                LoanDtoMapper().mapToLoanEntity(loanDto)
+            }
+            loansDatabase.withTransaction {
+                loansDao.deleteAllLoans()
+                loansDao.insertLoans(loans)
+            }
+        }
+    )
+
+    /*override suspend fun getAllLoans(token: String): Flow<Resource<List<Loan>>> =
         loanDataSource.getAllLoans(token).map { response ->
             if (response.isSuccessful && response.code() == 200) {
                 response.body()?.let { listDto ->
@@ -36,7 +59,7 @@ class LoanRepositoryImpl @Inject constructor(
                 val errorMessage = loanRepositoryErrorHandler(response.code())
                 Resource.Error(errorMessage = errorMessage)
             }
-        }
+        }*/
 
     override suspend fun requestLoan(
         token: String,

@@ -1,27 +1,13 @@
-package com.example.loanapp.data.remote.mapper
+package com.example.loanapp.data.local.mapper
 
 import com.example.loanapp.data.local.db.LoanEntity
 import com.example.loanapp.data.remote.model.LoanDto
 import com.example.loanapp.domain.entity.Loan
 import com.example.loanapp.domain.util.Mapper
-import javax.inject.Inject
 
-class LoanDtoMapper @Inject constructor() : Mapper<LoanDto, Loan> {
+class LoanEntityMapper : Mapper<LoanEntity, LoanDto> {
 
-    fun mapToLoanEntity(model: LoanDto): LoanEntity =
-        LoanEntity(
-            amount = model.amount,
-            date = model.date,
-            firstName = model.firstName,
-            id = model.id,
-            lastName = model.lastName,
-            percent = model.percent,
-            period = model.period,
-            phoneNumber = model.phoneNumber,
-            state = model.state
-        )
-
-    override fun mapToDomainModel(model: LoanDto): Loan =
+    fun mapToLoan(model: LoanEntity): Loan =
         Loan(
             amount = model.amount,
             date = model.date,
@@ -34,9 +20,22 @@ class LoanDtoMapper @Inject constructor() : Mapper<LoanDto, Loan> {
             state = model.state
         )
 
-
-    override fun mapFromDomainModel(domainModel: Loan): LoanDto =
+    override fun mapToDomainModel(model: LoanEntity): LoanDto =
         LoanDto(
+            amount = model.amount,
+            date = model.date,
+            firstName = model.firstName,
+            id = model.id,
+            lastName = model.lastName,
+            percent = model.percent,
+            period = model.period,
+            phoneNumber = model.phoneNumber,
+            state = model.state
+        )
+
+
+    override fun mapFromDomainModel(domainModel: LoanDto): LoanEntity =
+        LoanEntity(
             amount = domainModel.amount,
             date = domainModel.date,
             firstName = domainModel.firstName,

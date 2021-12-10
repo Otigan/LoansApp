@@ -27,11 +27,11 @@ interface LoansApi {
     @POST("login")
     suspend fun login(
         @Body loginRequestBody: LoginRequestBody
-    ): Response<String>
+    ): String
 
 
     @GET("loans/all")
-    suspend fun getAllLoans(@Header("Authorization") token: String): Response<List<LoanDto>>
+    suspend fun getAllLoans(@Header("Authorization") token: String): List<LoanDto>
 
 
     @POST("loans")

@@ -43,10 +43,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             loginViewModel.loginEventFlow.collect { event ->
                 when (event) {
                     is Event.Success -> {
+                        binding.progressBarLogin.visibility = View.GONE
                         navigateToLoansFragment()
                     }
                     is Event.Error -> {
+                        binding.progressBarLogin.visibility = View.GONE
                         binding.root.displaySnackbar(event.message)
+                    }
+                    is Event.Loading -> {
+                        binding.progressBarLogin.visibility = View.VISIBLE
                     }
                 }
             }
