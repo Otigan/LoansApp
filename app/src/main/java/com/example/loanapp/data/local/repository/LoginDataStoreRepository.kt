@@ -19,10 +19,6 @@ class LoginDataStoreRepository @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    object PreferenceKey {
-        val token = stringPreferencesKey("token")
-    }
-
     suspend fun saveToken(token: String) {
         context.loginDataStore.edit { preferences ->
             preferences[PreferenceKey.token] = token

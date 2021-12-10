@@ -1,7 +1,6 @@
 package com.example.loanapp.ui.loan
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,8 @@ import com.example.loanapp.domain.entity.LoanCondition
 import com.example.loanapp.presentation.loan.LoanConditionEvent
 import com.example.loanapp.presentation.loan.LoanRequestEvent
 import com.example.loanapp.presentation.loan.RequestLoanViewModel
+import com.example.loanapp.util.Extensions.checkIfNotEmpty
+import com.example.loanapp.util.Extensions.displaySnackbar
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -51,11 +52,11 @@ class RequestLoanFragment : Fragment(R.layout.fragment_request_loan) {
                     }
                     is LoanRequestEvent.ShowSnackbar -> {
                         binding.progressBarRequestLoan.visibility = View.GONE
-                        Snackbar.make(binding.root, event.message, Snackbar.LENGTH_SHORT).show()
+                        binding.root.displaySnackbar(event.message)
                     }
                     is LoanRequestEvent.Success -> {
                         binding.progressBarRequestLoan.visibility = View.GONE
-                        navigateToLoanRequestResultFragment()
+                        navigateToLoanRequestResultFragment(event.loan.amount)
                     }
                 }
             }
@@ -91,48 +92,66 @@ class RequestLoanFragment : Fragment(R.layout.fragment_request_loan) {
             }
         }
 
-
-
         binding.btnRequestLoan.setOnClickListener {
-            val amount = binding.editTxtAmount.text.toString().toInt()
-            val firstName = binding.editTxtFirstName.text.toString()
-            val lastName = binding.editTxtLastName.text.toString()
-            val percent = binding.editTxtPercent.text.toString().toDouble()
-            val period = binding.editTxtPeriod.text.toString().toInt()
-            val phoneNumber = binding.editTextPhoneNumber.text.toString()
 
-            val loan = LoanRequestBody(amount, firstName, lastName, percent, period, phoneNumber)
-            if (checkLoanCondition(loan, loadedLoanCondition)) {
-                binding.progressBarRequestLoan.visibility = View.VISIBLE
-                requestLoanViewModel.requestLoan(loan)
+            if (checkInput()) {
+                val amount = binding.txtFieldAmount.editText?.text.toString().toInt()
+                val firstName = binding.txtFieldFirstName.editText?.text.toString()
+                val lastName = binding.txtFieldLastName.editText?.text.toString()
+                val percent = binding.txtFieldPercent.editText?.text.toString().toDouble()
+                val period = binding.txtFieldPeriod.editText?.text.toString().toInt()
+                val phoneNumber = binding.txtFieldPhoneNumber.editText?.text.toString()
+                val loan =
+                    LoanRequestBody(amount, firstName, lastName, percent, period, phoneNumber)
+                if (checkLoanCondition(loan)) {
+                    binding.progressBarRequestLoan.visibility = View.VISIBLE
+                    requestLoanViewModel.requestLoan(loan)
+                }
             }
+
         }
 
     }
 
-    private fun navigateToLoanRequestResultFragment() {
-        val action = RequestLoanFragmentDirections.actionRequestLoanFragmentToLoanResultFragment()
+    private fun navigateToLoanRequestResultFragment(loan_amount: Int) {
+        val action =
+            RequestLoanFragmentDirections.actionRequestLoanFragmentToLoanResultFragment(loan_amount)
         findNavController().navigate(action)
     }
 
-    private fun checkLoanCondition(
-        loanRequest: LoanRequestBody,
-        condition: LoanCondition
-    ): Boolean =
-        when {
-            loanRequest.amount > condition.maxAmount -> {
+    private fun checkInput(): Boolean {
+        val amount = binding.txtFieldAmount.checkIfNotEmpty()
+        val firstName = binding.txtFieldFirstName.checkIfNotEmpty()
+        val lastName = binding.txtFieldLastName.checkIfNotEmpty()
+        val percent = binding.txtFieldPercent.checkIfNotEmpty()
+        val period = binding.txtFieldPeriod.checkIfNotEmpty()
+        val phoneNumber = binding.txtFieldPhoneNumber.checkIfNotEmpty()
+
+        return amount && firstName && lastName && percent && period && phoneNumber
+    }
+
+    private fun checkLoanCondition(loan: LoanRequestBody): Boolean {
+        return when {
+            loan.amount > loadedLoanCondition.maxAmount -> {
+                binding.txtFieldAmount.error = "Сумма займа превышает максимальную"
                 false
             }
-            loanRequest.percent > condition.percent -> {
+            loan.percent > loadedLoanCondition.percent -> {
+                binding.txtFieldPercent.error = "Процент займа превышает максимальный"
                 false
             }
-            loanRequest.period < condition.period -> {
+            loan.period < loadedLoanCondition.period -> {
+                binding.txtFieldPeriod.error = "Период займа меньше заданного"
                 false
             }
             else -> {
+                binding.txtFieldAmount.error = ""
+                binding.txtFieldPercent.error = ""
+                binding.txtFieldPeriod.error = ""
                 true
             }
         }
+    }
 
 
     override fun onDestroyView() {

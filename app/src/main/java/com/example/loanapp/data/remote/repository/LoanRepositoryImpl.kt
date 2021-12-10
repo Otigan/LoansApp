@@ -5,10 +5,12 @@ import com.example.loanapp.data.remote.data_source.loan.LoanDataSource
 import com.example.loanapp.data.remote.data_source.loan.LoanRequestDataSource
 import com.example.loanapp.data.remote.mapper.LoanDtoMapper
 import com.example.loanapp.data.remote.model.LoanRequestBody
-import com.example.loanapp.domain.Resource
+import com.example.loanapp.data.remote.util.LoanRepositoryErrorHandler
 import com.example.loanapp.domain.entity.Loan
 import com.example.loanapp.domain.entity.LoanCondition
 import com.example.loanapp.domain.repository.LoanRepository
+import com.example.loanapp.util.Common.returnUnknownError
+import com.example.loanapp.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -17,6 +19,7 @@ class LoanRepositoryImpl @Inject constructor(
     private val loanDataSource: LoanDataSource,
     private val loanConditionDataSource: LoanConditionDataSource,
     private val loanRequestDataSource: LoanRequestDataSource,
+    private val loanRepositoryErrorHandler: LoanRepositoryErrorHandler
 ) :
     LoanRepository {
 
@@ -28,22 +31,10 @@ class LoanRepositoryImpl @Inject constructor(
                         LoanDtoMapper().mapToDomainModel(loanDto)
                     }
                     Resource.Success(loans)
-                } ?: Resource.Error("Произошла неизвестная ошибка 1")
+                } ?: returnUnknownError()
             } else {
-                when (response.code()) {
-                    401 -> {
-                        Resource.Error("Пользователь не авторизован")
-                    }
-                    403 -> {
-                        Resource.Error("Forbidden")
-                    }
-                    404 -> {
-                        Resource.Error("Not found")
-                    }
-                    else -> {
-                        Resource.Error("Произошла неизвестная ошибка 2")
-                    }
-                }
+                val errorMessage = loanRepositoryErrorHandler(response.code())
+                Resource.Error(errorMessage = errorMessage)
             }
         }
 
@@ -52,29 +43,17 @@ class LoanRepositoryImpl @Inject constructor(
         loanRequestBody: LoanRequestBody
     ): Flow<Resource<Loan>> =
         loanRequestDataSource.requestLoan(token, loanRequestBody).map { response ->
-            if (response.isSuccessful && response.code() == 200) {
+            if (response.isSuccessful && response.code() == 200 || response.code() == 201) {
                 response.body()?.let { loanDto ->
                     loanDto.let {
                         Resource.Success(
                             LoanDtoMapper().mapToDomainModel(it)
                         )
                     }
-                } ?: Resource.Error("Произошла неизвестная ошибка")
+                } ?: returnUnknownError()
             } else {
-                when (response.code()) {
-                    401 -> {
-                        Resource.Error("Пользователь не авторизован")
-                    }
-                    403 -> {
-                        Resource.Error("Forbidden")
-                    }
-                    404 -> {
-                        Resource.Error("Not found")
-                    }
-                    else -> {
-                        Resource.Error("Произошла неизвестная ошибка 2")
-                    }
-                }
+                val errorMessage = loanRepositoryErrorHandler(response.code())
+                Resource.Error(errorMessage = errorMessage)
             }
 
         }
@@ -84,22 +63,10 @@ class LoanRepositoryImpl @Inject constructor(
             if (response.isSuccessful && response.code() == 200) {
                 response.body()?.let {
                     Resource.Success(it)
-                } ?: Resource.Error("Произошла неизвестная ошибка")
+                } ?: returnUnknownError()
             } else {
-                when (response.code()) {
-                    401 -> {
-                        Resource.Error("Пользователь не авторизован")
-                    }
-                    403 -> {
-                        Resource.Error("Forbidden")
-                    }
-                    404 -> {
-                        Resource.Error("Not found")
-                    }
-                    else -> {
-                        Resource.Error("Произошла неизвестная ошибка 2")
-                    }
-                }
+                val errorMessage = loanRepositoryErrorHandler(response.code())
+                Resource.Error(errorMessage = errorMessage)
             }
         }
 

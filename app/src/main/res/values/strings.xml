@@ -1,28 +1,47 @@
 <resources>
-    <!--  Auth  -->
+
     <string name="app_name">LoanApp</string>
-    <string name="text_input_layout_login_hint">Введите ваш логин</string>
-    <string name="text_input_layout_password_hint">Введите ваш пароль</string>
-    <string name="btn_login">Войти в аккаунт</string>
-    <string name="btn_register">Зарегистрироваться</string>
-    <string name="txt_dont_have_account">Нет аккаунта? Зарегистрируйтесь</string>
-    <string name="text_input_layout_pass_conf">Повторите ваш пароль</string>
+    <string name="nav_label_login">Login</string>
+    <string name="nav_label_register">Register</string>
+    <string name="nav_label_loans">Loan list</string>
+    <string name="text_input_layout_login_hint">Enter your login</string>
+    <string name="text_input_layout_password_hint">Enter your password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_register">Register</string>
+    <string name="txt_dont_have_account">Don\'t have an account? Register</string>
+    <string name="text_input_layout_pass_conf">Repeat your password</string>
+    <string name="txt_view_loan_id">Request number: %d</string>
+    <string name="txt_view_loan_result">Your application has been processed</string>
+    <string name="txt_view_loan_result_amount">Your application for a loan in the amount of %d RUB will be considered</string>
+    <string name="btn_go_back_to_loans">Go back to the list of loans</string>
+    <string name="txt_loan_detail_status">Your request %s!</string>
+    <string name="txt_loan_detail_success_description">Your application has been approved.         Next, you need to choose a way to receive money: to your bank card or to receive money at the branch</string>
+    <string name="txt_loan_detail_reject_description">Your application has been rejected.         To find out the reason for the refusal to issue a loan, please contact us via the hotline</string>
+    <string name="btn_request_loan">Get a loan</string>
+    <string name="edit_txt_request_loan_phone_number">Enter your phone number</string>
+    <string name="edit_txt_request_loan_period">Enter the loan period</string>
+    <string name="edit_txt_request_loan_percent">Enter the loan percentage</string>
+    <string name="edit_txt_request_loan_lastName">Enter your last name</string>
+    <string name="edit_txt_request_loan_firstName">Enter your name</string>
+    <string name="edit_txt_request_loan_amount">Enter the loan amount</string>
+    <string name="txt_view_loan_period">Loan period: %d</string>
+    <string name="txt_view_loan_percent">Loan interest: %f</string>
+    <string name="txt_view_loan_max_amount">Maximum loan amount: %d</string>
+    <string name="txt_view_loan_conditions">Loan terms and conditions</string>
+    <string name="nav_label_request_loan">Loan application</string>
+    <string name="language_list_title">Select language</string>
 
-    <!--  RequestLoanFragment  -->
-    <string name="txt_view_loan_conditions">Условия выдачи займа</string>
-    <string name="txt_view_loan_max_amount">Максимальная сумма займа: %d</string>
-    <string name="txt_view_loan_percent">Процент займа: %f </string>
-    <string name="txt_view_loan_period">Период займа: %d</string>
-    <string name="edit_txt_request_loan_amount">Введите сумму займа</string>
-    <string name="edit_txt_request_loan_firstName">Введите ваше имя</string>
-    <string name="edit_txt_request_loan_lastName">Введите вашу фамилию</string>
-    <string name="edit_txt_request_loan_percent">Введите процент займа</string>
-    <string name="edit_txt_request_loan_period">Введите период займа</string>
-    <string name="edit_txt_request_loan_phone_number">Введите ваш номер телефона</string>
-    <string name="btn_request_loan">Получить займ</string>
+    <string-array name="language_array">
+        <item>Русский</item>
+        <item>English</item>
+    </string-array>
 
-    <!--  LoansFragment  -->
-    <string name="txt_view_loan_id">Номер заявки: %d</string>
-    <string name="txt_view_loan_status">%s</string>
-    <string name="txt_view_amount">%d RUB</string>
+    <string-array name="language_code">
+        <item>ru</item>
+        <item>en</item>
+    </string-array>
+    <string name="txt_view_loan_status" translatable="false">%s</string>
+    <string name="txt_view_amount" translatable="false">%d RUB</string>
+
+
 </resources>

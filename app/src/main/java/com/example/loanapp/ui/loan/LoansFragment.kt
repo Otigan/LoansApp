@@ -1,19 +1,18 @@
 package com.example.loanapp.ui.loan
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentLoansBinding
+import com.example.loanapp.domain.entity.Loan
 import com.example.loanapp.presentation.loan.LoanEvent
 import com.example.loanapp.presentation.loan.LoansViewModel
 import com.example.loanapp.ui.adapter.LoansAdapter
-import com.google.android.material.snackbar.Snackbar
+import com.example.loanapp.util.Extensions.displaySnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -37,7 +36,9 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loansAdapter = LoansAdapter()
+        loansAdapter = LoansAdapter(onClick = { loan ->
+            navigateToLoanDetailFragment(loan)
+        })
 
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -46,7 +47,7 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
                 loansEventFlow.collect { event ->
                     when (event) {
                         is LoanEvent.ShowSnackbar -> {
-                            Snackbar.make(binding.root, event.message, Snackbar.LENGTH_SHORT).show()
+                            binding.root.displaySnackbar(event.message)
                         }
                         is LoanEvent.Success -> {
                             loansAdapter.submitList(event.loans)
@@ -65,6 +66,30 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
                 navigateToRequestLoanFragment()
             }
         }
+        setHasOptionsMenu(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_settings -> {
+                navigateToSettingsFragment()
+            }
+        }
+        return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        return inflater.inflate(R.menu.menu_loans_fragment, menu)
+    }
+
+    private fun navigateToSettingsFragment() {
+        val action = LoansFragmentDirections.actionLoansFragmentToSettingsFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToLoanDetailFragment(loan: Loan) {
+        val action = LoansFragmentDirections.actionLoansFragmentToLoanDetailFragment(loan)
+        findNavController().navigate(action)
     }
 
     private fun navigateToRequestLoanFragment() {

@@ -18,40 +18,39 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
-
     <TextView
         android:id="@+id/txt_view_loan_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:text="@string/txt_view_loan_result"
+        android:textColor="?MainTextViewColor"
         android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@id/txt_view_loan_amount"
+        app:layout_constraintBottom_toTopOf="@id/txt_view_loan_result_amount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_loan_result"
-        tools:text="Ваша заявка оформлена" />
+        app:layout_constraintTop_toBottomOf="@id/img_loan_result" />
 
     <TextView
-        android:id="@+id/txt_view_loan_amount"
+        android:id="@+id/txt_view_loan_result_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/txt_view_loan_result_amount"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="?MainTextViewColor"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/btn_go_back_to_loans"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_view_loan_result"
-        tools:text="Ваша заявка на займ в размере 555 рублей будет рассмотрена" />
+        app:layout_constraintTop_toBottomOf="@id/txt_view_loan_result" />
 
 
     <Button
         android:id="@+id/btn_go_back_to_loans"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Вернуться к списку займов"
+        android:text="@string/btn_go_back_to_loans"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_view_loan_amount" />
+        app:layout_constraintTop_toBottomOf="@id/txt_view_loan_result_amount" />
 </androidx.constraintlayout.widget.ConstraintLayout>

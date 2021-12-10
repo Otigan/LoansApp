@@ -2,10 +2,10 @@ package com.example.loanapp.presentation.loan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.loanapp.domain.Resource
 import com.example.loanapp.domain.entity.Loan
 import com.example.loanapp.domain.use_case.auth.TokenUseCase
 import com.example.loanapp.domain.use_case.loan.GetAllLoansUseCase
+import com.example.loanapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect

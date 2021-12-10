@@ -1,6 +1,10 @@
 package com.example.loanapp.domain.entity
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+
+@Parcelize
 data class Loan(
     val amount: Int = 0,
     val date: String = "",
@@ -11,4 +15,4 @@ data class Loan(
     val period: Int = 0,
     val phoneNumber: String = "",
     val state: String = "",
-)
+) : Parcelable

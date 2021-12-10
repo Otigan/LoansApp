@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  Navigation labels  -->
+    <string name="nav_label_login">Войти в аккаунт</string>
+    <string name="nav_label_register">Регистрация</string>
+    <string name="nav_label_loans">Список займов</string>
+    <string name="nav_label_request_loan">Заявка на получение займа</string>
+
+
+    <!--  Auth  -->
+    <string name="app_name">LoanApp</string>
+    <string name="text_input_layout_login_hint">Введите ваш логин</string>
+    <string name="text_input_layout_password_hint">Введите ваш пароль</string>
+    <string name="btn_login">Войти в аккаунт</string>
+    <string name="btn_register">Зарегистрироваться</string>
+    <string name="txt_dont_have_account">Нет аккаунта? Зарегистрируйтесь</string>
+    <string name="text_input_layout_pass_conf">Повторите ваш пароль</string>
+
+    <!--  RequestLoanFragment  -->
+    <string name="txt_view_loan_conditions">Условия выдачи займа</string>
+    <string name="txt_view_loan_max_amount">Максимальная сумма займа: %d</string>
+    <string name="txt_view_loan_percent">Процент займа: %f </string>
+    <string name="txt_view_loan_period">Период займа: %d</string>
+    <string name="edit_txt_request_loan_amount">Введите сумму займа</string>
+    <string name="edit_txt_request_loan_firstName">Введите ваше имя</string>
+    <string name="edit_txt_request_loan_lastName">Введите вашу фамилию</string>
+    <string name="edit_txt_request_loan_percent">Введите процент займа</string>
+    <string name="edit_txt_request_loan_period">Введите период займа</string>
+    <string name="edit_txt_request_loan_phone_number">Введите ваш номер телефона</string>
+    <string name="btn_request_loan">Получить займ</string>
+
+    <!--  LoansFragment  -->
+    <string name="txt_view_loan_id">Номер заявки: %d</string>
+    <string name="txt_view_loan_status" translatable="false">%s</string>
+    <string name="txt_view_amount" translatable="false">%d RUB</string>
+
+
+    <!--  LoanResultFragment  -->
+    <string name="txt_view_loan_result">Ваша заявка оформлена</string>
+    <string name="txt_view_loan_result_amount">Ваша заявка на займ в размере %d RUB будет рассмотрена</string>
+    <string name="btn_go_back_to_loans">Вернуться к списку займов</string>
+
+    <!--  LoanDetailFragment  -->
+    <string name="txt_loan_detail_status">Ваша заявка %s!</string>
+    <string name="txt_loan_detail_success_description">"Ваша заявка одобрена.         Далее вам необходимо выбрать способ получения денег: на вашу банковскую карту или получить деньги         в отделении     "</string>
+    <string name="txt_loan_detail_reject_description">Ваша заявка была отклонена.
+        Чтобы узнать причину отказа на выдачу займа, пожалуйста, свяжитесь с нами по горячей линии
+    </string>
+
+    <!--  Settings  -->
+    <string name="language_list_title">Выберите язык</string>
+
+</resources>

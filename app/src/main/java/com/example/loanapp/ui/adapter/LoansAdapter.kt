@@ -10,13 +10,18 @@ import com.example.loanapp.R
 import com.example.loanapp.databinding.ItemLoanBinding
 import com.example.loanapp.domain.entity.Loan
 
-class LoansAdapter : ListAdapter<Loan, LoansAdapter.LoanViewHolder>(LoanComparator()) {
+class LoansAdapter(private val onClick: (Loan) -> Unit) :
+    ListAdapter<Loan, LoansAdapter.LoanViewHolder>(LoanComparator()) {
 
-    class LoanViewHolder(private val binding: ItemLoanBinding) :
+    class LoanViewHolder(
+        private val binding: ItemLoanBinding,
+        private val onClick: (Loan) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(loanItem: Loan) {
             binding.apply {
+                root.setOnClickListener { onClick(loanItem) }
                 root.context.apply {
                     txtLoanId.text = getString(R.string.txt_view_loan_id, loanItem.id)
                     txtLoanStatus.text = getString(R.string.txt_view_loan_status, loanItem.state)
@@ -55,7 +60,7 @@ class LoansAdapter : ListAdapter<Loan, LoansAdapter.LoanViewHolder>(LoanComparat
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoanViewHolder {
         val binding = ItemLoanBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return LoanViewHolder(binding)
+        return LoanViewHolder(binding, onClick)
     }
 
     override fun onBindViewHolder(holder: LoanViewHolder, position: Int) {

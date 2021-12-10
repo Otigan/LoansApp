@@ -8,11 +8,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentRegisterBinding
-import com.example.loanapp.presentation.auth.RegisterEvent
+import com.example.loanapp.presentation.auth.Event
 import com.example.loanapp.presentation.auth.RegisterViewModel
-import com.google.android.material.snackbar.Snackbar
+import com.example.loanapp.util.Extensions.checkIfNotEmpty
+import com.example.loanapp.util.Extensions.checkIfPasswordsAreSame
+import com.example.loanapp.util.Extensions.displaySnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -37,11 +40,11 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             registerViewModel.userFlow.collect { event ->
                 when (event) {
-                    is RegisterEvent.ShowSnackbar -> {
-                        Snackbar.make(binding.root, event.message, Snackbar.LENGTH_SHORT).show()
+                    is Event.Error -> {
+                        binding.root.displaySnackbar(event.message)
                     }
-                    is RegisterEvent.Success -> {
-
+                    is Event.Success -> {
+                        navigateToLoginFragment()
                     }
                 }
             }
@@ -49,60 +52,32 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
         binding.apply {
             btnRegister.setOnClickListener {
-                if (checkIfLoginEmpty() && checkIfPasswordEmpty() && checkIfPasswordsSame()) {
+                if (checkTextFields()) {
                     Toast.makeText(context, "Registered", Toast.LENGTH_SHORT).show()
-                    val name = binding.registerLoginInput.text.toString()
-                    val password = binding.registerPasswordInput.text.toString()
+                    val name = binding.txtFieldLoginRegister.editText?.text.toString()
+                    val password = binding.txtFieldPasswordRegister.editText?.text.toString()
                     registerViewModel.register(name, password)
 
                 }
             }
         }
-
     }
 
-
-    private fun checkIfLoginEmpty(): Boolean {
-        val loginInput = binding.registerLoginInput.text.toString()
-        return if (loginInput.isEmpty()) {
-            binding.txtFieldLoginRegister.error = "Пожалуйста, введите ваш логин"
-            false
-        } else {
-            binding.txtFieldLoginRegister.error = ""
-            true
-        }
+    private fun checkTextFields(): Boolean {
+        val loginTextField = binding.txtFieldLoginRegister.checkIfNotEmpty()
+        val passwordTextField = binding.txtFieldPasswordRegister.checkIfNotEmpty()
+        val confPasswordTextField = binding.txtFieldPasswordRegisterRepeat.checkIfNotEmpty()
+        val passwordsAreSame = binding.txtFieldPasswordRegisterRepeat.checkIfPasswordsAreSame(
+            binding.txtFieldPasswordRegister
+        )
+        return loginTextField && passwordTextField && confPasswordTextField && passwordsAreSame
     }
 
-    private fun checkIfPasswordEmpty(): Boolean {
-        val passwordInput = binding.registerPasswordInput.text.toString()
-        return if (passwordInput.isEmpty()) {
-            binding.txtFieldPasswordRegister.error = "Пожалуйста, введите пароль"
-            false
-        } else {
-            binding.txtFieldPasswordRegister.error = ""
-            true
-        }
+    private fun navigateToLoginFragment() {
+        val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+        findNavController().navigate(action)
     }
 
-    private fun checkIfPasswordsSame(): Boolean {
-        val passwordInput = binding.registerPasswordInput.text.toString()
-        val passwordConf = binding.registerPasswordRepeatInput.text.toString()
-        return when {
-            passwordConf.isEmpty() -> {
-                binding.txtFieldPasswordRegisterRepeat.error =
-                    "Введите, пожалуйста, подтверждение пароля"
-                false
-            }
-            passwordConf != passwordInput -> {
-                binding.txtFieldPasswordRegisterRepeat.error = "Пароли не совпадают"
-                false
-            }
-            else -> {
-                binding.txtFieldPasswordRegisterRepeat.error = ""
-                true
-            }
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

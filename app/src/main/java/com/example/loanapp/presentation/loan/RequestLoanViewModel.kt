@@ -3,7 +3,7 @@ package com.example.loanapp.presentation.loan
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loanapp.data.remote.model.LoanRequestBody
-import com.example.loanapp.domain.Resource
+import com.example.loanapp.util.Resource
 import com.example.loanapp.domain.entity.Loan
 import com.example.loanapp.domain.entity.LoanCondition
 import com.example.loanapp.domain.use_case.auth.TokenUseCase

@@ -10,9 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentLoginBinding
-import com.example.loanapp.presentation.auth.AuthEvent
+import com.example.loanapp.presentation.auth.Event
 import com.example.loanapp.presentation.auth.LoginViewModel
-import com.google.android.material.snackbar.Snackbar
+import com.example.loanapp.util.Extensions.checkIfNotEmpty
+import com.example.loanapp.util.Extensions.displaySnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -41,11 +42,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             loginViewModel.loginEventFlow.collect { event ->
                 when (event) {
-                    is AuthEvent.Success -> {
+                    is Event.Success -> {
                         navigateToLoansFragment()
                     }
-                    is AuthEvent.ShowSnackbar -> {
-                        Snackbar.make(binding.root, event.message, Snackbar.LENGTH_SHORT).show()
+                    is Event.Error -> {
+                        binding.root.displaySnackbar(event.message)
                     }
                 }
             }
@@ -56,9 +57,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 navigateToRegisterFragment()
             }
             btnLogin.setOnClickListener {
-                if (checkIfLoginEmpty() && checkIfPasswordEmpty()) {
-                    val name = binding.loginInput.text.toString()
-                    val password = binding.passwordInput.text.toString()
+                if (checkTextFields()) {
+                    val name = binding.txtFieldLogin.editText?.text.toString()
+                    val password = binding.txtFieldPassword.editText?.text.toString()
                     loginViewModel.login(name, password)
                 }
             }
@@ -70,26 +71,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         _binding = null
     }
 
-    private fun checkIfLoginEmpty(): Boolean {
-        val loginInput = binding.loginInput.text.toString()
-        return if (loginInput.isEmpty()) {
-            binding.txtFieldLogin.error = "Пожалуйста, введите ваш логин"
-            false
-        } else {
-            binding.txtFieldLogin.error = ""
-            true
-        }
-    }
-
-    private fun checkIfPasswordEmpty(): Boolean {
-        val passwordInput = binding.passwordInput.text.toString()
-        return if (passwordInput.isEmpty()) {
-            binding.txtFieldPassword.error = "Пожалуйста, введите пароль"
-            false
-        } else {
-            binding.txtFieldPassword.error = ""
-            true
-        }
+    private fun checkTextFields(): Boolean {
+        val loginInputLayout = binding.txtFieldLogin.checkIfNotEmpty()
+        val passwordInputLayout = binding.txtFieldPassword.checkIfNotEmpty()
+        return loginInputLayout && passwordInputLayout
     }
 
     private fun navigateToLoansFragment() {

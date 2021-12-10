@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/txt_view_loan_conditions"
-        android:textColor="@color/black"
+        android:textColor="?MainTextViewColor"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         android:id="@+id/txt_view_loan_max_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="?MainTextViewColor"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
         android:id="@+id/txt_view_loan_percent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="?MainTextViewColor"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
         android:id="@+id/txt_view_loan_period"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="?MainTextViewColor"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,72 +63,122 @@
         tools:text="@string/txt_view_loan_period" />
 
 
-    <EditText
-        android:id="@+id/edit_txt_amount"
-        android:layout_width="@dimen/edit_txt_request_loan_width"
-        android:layout_height="@dimen/edit_txt_request_loan_height"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_field_amount"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:hint="@string/edit_txt_request_loan_amount"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@id/edit_txt_firstName"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/txt_field_firstName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@id/txt_view_loan_period"
+        app:layout_constraintVertical_chainStyle="packed">
 
-    <EditText
-        android:id="@+id/edit_txt_firstName"
-        android:layout_width="@dimen/edit_txt_request_loan_width"
-        android:layout_height="@dimen/edit_txt_request_loan_height"
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:inputType="number"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_field_firstName"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:hint="@string/edit_txt_request_loan_firstName"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@id/edit_txt_lastName"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/txt_field_lastName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_txt_amount" />
+        app:layout_constraintTop_toBottomOf="@id/txt_field_amount">
 
-    <EditText
-        android:id="@+id/edit_txt_lastName"
-        android:layout_width="@dimen/edit_txt_request_loan_width"
-        android:layout_height="@dimen/edit_txt_request_loan_height"
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:inputType="textPersonName"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_field_lastName"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:hint="@string/edit_txt_request_loan_lastName"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@id/edit_txt_percent"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/txt_field_percent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_txt_firstName" />
+        app:layout_constraintTop_toBottomOf="@id/txt_field_firstName">
 
-    <EditText
-        android:id="@+id/edit_txt_percent"
-        android:layout_width="@dimen/edit_txt_request_loan_width"
-        android:layout_height="@dimen/edit_txt_request_loan_height"
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:inputType="textPersonName"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_field_percent"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:hint="@string/edit_txt_request_loan_percent"
-        android:inputType="numberDecimal"
-        app:layout_constraintBottom_toTopOf="@id/edit_txt_period"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/txt_field_period"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_txt_lastName" />
+        app:layout_constraintTop_toBottomOf="@id/txt_field_lastName">
 
-    <EditText
-        android:id="@+id/edit_txt_period"
-        android:layout_width="@dimen/edit_txt_request_loan_width"
-        android:layout_height="@dimen/edit_txt_request_loan_height"
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:inputType="numberDecimal"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_field_period"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:hint="@string/edit_txt_request_loan_period"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@id/edit_text_phone_number"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/txt_field_phone_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_txt_percent" />
+        app:layout_constraintTop_toBottomOf="@id/txt_field_percent">
 
-    <EditText
-        android:id="@+id/edit_text_phone_number"
-        android:layout_width="@dimen/edit_txt_request_loan_width"
-        android:layout_height="@dimen/edit_txt_request_loan_height"
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:inputType="number"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_field_phone_number"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
         android:hint="@string/edit_txt_request_loan_phone_number"
-        android:inputType="phone"
+        app:errorEnabled="true"
         app:layout_constraintBottom_toTopOf="@id/btn_request_loan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_txt_period" />
+        app:layout_constraintTop_toBottomOf="@id/txt_field_period">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:inputType="phone"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btn_request_loan"
@@ -138,6 +188,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_phone_number" />
+        app:layout_constraintTop_toBottomOf="@id/txt_field_phone_number" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

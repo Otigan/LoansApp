@@ -1,7 +1,7 @@
 package com.example.loanapp.domain.repository
 
 import com.example.loanapp.data.remote.model.LoanRequestBody
-import com.example.loanapp.domain.Resource
+import com.example.loanapp.util.Resource
 import com.example.loanapp.domain.entity.Loan
 import com.example.loanapp.domain.entity.LoanCondition
 import kotlinx.coroutines.flow.Flow

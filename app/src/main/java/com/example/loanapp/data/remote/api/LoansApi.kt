@@ -8,7 +8,7 @@ import retrofit2.http.*
 interface LoansApi {
 
     companion object {
-        const val BASE_URL = "http://focusstart.appspot.com/"
+        const val BASE_URL = "https://focusstart.appspot.com/"
     }
 
     @Headers(
