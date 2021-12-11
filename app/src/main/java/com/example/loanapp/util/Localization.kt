@@ -8,9 +8,6 @@ import java.util.*
 const val LANGUAGE_PREFS = "PREFERENCES_LANGUAGE"
 const val SELECTED_LANGUAGE = "lang"
 
-/**
- *  This contains locale changes configuration for language binding
- */
 class Localization {
 
     fun onAttach(context: Context): Context {

@@ -2,7 +2,6 @@ package com.example.loanapp.data.remote.api
 
 import com.example.loanapp.data.remote.model.*
 import com.example.loanapp.domain.entity.LoanCondition
-import retrofit2.Response
 import retrofit2.http.*
 
 interface LoansApi {
@@ -18,7 +17,7 @@ interface LoansApi {
     @POST("registration")
     suspend fun register(
         @Body registerRequestBody: RegisterRequestBody
-    ): Response<UserDto>
+    ): UserDto
 
     @Headers(
         "Content-Type: application/json",
@@ -38,10 +37,10 @@ interface LoansApi {
     suspend fun requestLoan(
         @Header("Authorization") token: String,
         @Body loanRequestBody: LoanRequestBody
-    ): Response<LoanDto>
+    ): LoanDto
 
     @GET("loans/conditions")
     suspend fun getLoanCondition(
         @Header("Authorization") token: String
-    ): Response<LoanCondition>
+    ): LoanCondition
 }

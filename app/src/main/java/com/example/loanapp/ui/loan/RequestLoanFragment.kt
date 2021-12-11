@@ -133,15 +133,15 @@ class RequestLoanFragment : Fragment(R.layout.fragment_request_loan) {
     private fun checkLoanCondition(loan: LoanRequestBody): Boolean {
         return when {
             loan.amount > loadedLoanCondition.maxAmount -> {
-                binding.txtFieldAmount.error = "Сумма займа превышает максимальную"
+                binding.txtFieldAmount.error = getString(R.string.request_loan_amount_error)
                 false
             }
-            loan.percent > loadedLoanCondition.percent -> {
-                binding.txtFieldPercent.error = "Процент займа превышает максимальный"
+            loan.percent != loadedLoanCondition.percent -> {
+                binding.txtFieldPercent.error = getString(R.string.request_loan_percent_error)
                 false
             }
-            loan.period < loadedLoanCondition.period -> {
-                binding.txtFieldPeriod.error = "Период займа меньше заданного"
+            loan.period != loadedLoanCondition.period -> {
+                binding.txtFieldPeriod.error = getString(R.string.request_loan_period_error)
                 false
             }
             else -> {

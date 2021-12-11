@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="app_name">LoanApp</string>
     <!--  Navigation labels  -->
     <string name="nav_label_login">Войти в аккаунт</string>
     <string name="nav_label_register">Регистрация</string>
@@ -8,7 +10,6 @@
 
 
     <!--  Auth  -->
-    <string name="app_name">LoanApp</string>
     <string name="text_input_layout_login_hint">Введите ваш логин</string>
     <string name="text_input_layout_password_hint">Введите ваш пароль</string>
     <string name="btn_login">Войти в аккаунт</string>
@@ -19,7 +20,7 @@
     <!--  RequestLoanFragment  -->
     <string name="txt_view_loan_conditions">Условия выдачи займа</string>
     <string name="txt_view_loan_max_amount">Максимальная сумма займа: %d</string>
-    <string name="txt_view_loan_percent">Процент займа: %f </string>
+    <string name="txt_view_loan_percent">Процент займа: %.3f </string>
     <string name="txt_view_loan_period">Период займа: %d</string>
     <string name="edit_txt_request_loan_amount">Введите сумму займа</string>
     <string name="edit_txt_request_loan_firstName">Введите ваше имя</string>
@@ -31,8 +32,6 @@
 
     <!--  LoansFragment  -->
     <string name="txt_view_loan_id">Номер заявки: %d</string>
-    <string name="txt_view_loan_status" translatable="false">%s</string>
-    <string name="txt_view_amount" translatable="false">%d RUB</string>
 
 
     <!--  LoanResultFragment  -->
@@ -41,13 +40,34 @@
     <string name="btn_go_back_to_loans">Вернуться к списку займов</string>
 
     <!--  LoanDetailFragment  -->
-    <string name="txt_loan_detail_status">Ваша заявка %s!</string>
-    <string name="txt_loan_detail_success_description">"Ваша заявка одобрена.         Далее вам необходимо выбрать способ получения денег: на вашу банковскую карту или получить деньги         в отделении     "</string>
+    <string name="txt_loan_detail_status_approved">Ваша заявка одобрена!</string>
+    <string name="txt_loan_detail_status_rejected">Ваша заявка отклонена!</string>
+    <string name="txt_loan_detail_status_registered">Ваша заявка на рассмотрении!</string>
+    <string name="txt_loan_detail_success_description">"Ваша заявка одобрена. Далее вам необходимо выбрать способ получения денег: на вашу банковскую карту или получить деньги в отделении"</string>
     <string name="txt_loan_detail_reject_description">Ваша заявка была отклонена.
         Чтобы узнать причину отказа на выдачу займа, пожалуйста, свяжитесь с нами по горячей линии
     </string>
+    <string name="txt_loan_detail_registered_description">Ожидайте рассмотрения вашей заявки</string>
 
     <!--  Settings  -->
     <string name="language_list_title">Выберите язык</string>
+    <string name="error_no_internet_connection">Отсутствует интернет-соединение</string>
+    <string name="error_timeout">Время ожидания ответа истекло</string>
+    <string name="error_401">Пользователь не авторизован</string>
+    <string name="error_403">Доступ запрещен</string>
+    <string name="error_404">Не найдено, пожалуйста, проверьте правильность введенных данных</string>
+    <string name="error_unknown">Произошла неизвестная ошибка</string>
+    <string name="txt_view_loan_status_approved">Одобрена</string>
+    <string name="txt_view_loan_status_registered">На рассмотрении</string>
+    <string name="txt_view_loan_status_rejected">Отклонено</string>
+    <string name="nav_label_settings">Настройки</string>
+    <string name="nav_label_loan_result">Заявка отправлена</string>
+    <string name="nav_label_loan_detailed">Детали заявки</string>
+    <string name="request_loan_amount_error">Введенная сумма превышает максимальную</string>
+    <string name="request_loan_percent_error">Введенный процент не совпадает с заданным значением</string>
+    <string name="request_loan_period_error">Период не совпадает с заданным значением</string>
+    <string name="dialog_logout_title">Вы точно хотите выйти из аккаунта?</string>
+    <string name="dialog_logout_positive_button">Да</string>
+    <string name="dialog_logout_negative_button">Нет</string>
 
 </resources>

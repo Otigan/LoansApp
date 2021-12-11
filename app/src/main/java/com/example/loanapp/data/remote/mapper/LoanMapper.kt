@@ -3,12 +3,11 @@ package com.example.loanapp.data.remote.mapper
 import com.example.loanapp.data.local.db.LoanEntity
 import com.example.loanapp.data.remote.model.LoanDto
 import com.example.loanapp.domain.entity.Loan
-import com.example.loanapp.domain.util.Mapper
 import javax.inject.Inject
 
-class LoanDtoMapper @Inject constructor() : Mapper<LoanDto, Loan> {
+class LoanMapper @Inject constructor() {
 
-    fun mapToLoanEntity(model: LoanDto): LoanEntity =
+    fun mapLoanDtoToLoanEntity(model: LoanDto): LoanEntity =
         LoanEntity(
             amount = model.amount,
             date = model.date,
@@ -21,7 +20,7 @@ class LoanDtoMapper @Inject constructor() : Mapper<LoanDto, Loan> {
             state = model.state
         )
 
-    override fun mapToDomainModel(model: LoanDto): Loan =
+    fun mapLoanDtoToLoan(model: LoanDto): Loan =
         Loan(
             amount = model.amount,
             date = model.date,
@@ -35,7 +34,7 @@ class LoanDtoMapper @Inject constructor() : Mapper<LoanDto, Loan> {
         )
 
 
-    override fun mapFromDomainModel(domainModel: Loan): LoanDto =
+    fun mapLoanToLoanDto(domainModel: Loan): LoanDto =
         LoanDto(
             amount = domainModel.amount,
             date = domainModel.date,
@@ -47,4 +46,5 @@ class LoanDtoMapper @Inject constructor() : Mapper<LoanDto, Loan> {
             phoneNumber = domainModel.phoneNumber,
             state = domainModel.state
         )
+
 }

@@ -9,10 +9,4 @@ class LoginDataSourceImpl @Inject constructor(private val loansApi: LoansApi) : 
     override suspend fun login(loginRequestBody: LoginRequestBody): String =
         loansApi.login(loginRequestBody)
 
-
-    /*override suspend fun login(loginRequestBody: LoginRequestBody): Flow<Response<String>> =
-        flow {
-            val result = loansApi.login(loginRequestBody)
-            emit(result)
-        }*/
 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.loanapp.R
 import com.example.loanapp.databinding.ItemLoanBinding
 import com.example.loanapp.domain.entity.Loan
+import com.example.loanapp.domain.entity.LoanState
 
 class LoansAdapter(private val onClick: (Loan) -> Unit) :
     ListAdapter<Loan, LoansAdapter.LoanViewHolder>(LoanComparator()) {
@@ -24,18 +25,10 @@ class LoansAdapter(private val onClick: (Loan) -> Unit) :
                 root.setOnClickListener { onClick(loanItem) }
                 root.context.apply {
                     txtLoanId.text = getString(R.string.txt_view_loan_id, loanItem.id)
-                    txtLoanStatus.text = getString(R.string.txt_view_loan_status, loanItem.state)
                     txtViewAmount.text = getString(R.string.txt_view_amount, loanItem.amount)
-                    when (loanItem.state) {
-                        "REGISTERED" -> {
-                            imgLoanStatus.setImageDrawable(
-                                AppCompatResources.getDrawable(
-                                    this,
-                                    R.drawable.icon_loan_registered
-                                )
-                            )
-                        }
-                        "APPROVED" -> {
+                    when (LoanState.valueOf(loanItem.state)) {
+                        LoanState.APPROVED -> {
+                            txtLoanStatus.text = getString(R.string.txt_view_loan_status_approved)
                             imgLoanStatus.setImageDrawable(
                                 AppCompatResources.getDrawable(
                                     this,
@@ -43,7 +36,8 @@ class LoansAdapter(private val onClick: (Loan) -> Unit) :
                                 )
                             )
                         }
-                        "REJECTED" -> {
+                        LoanState.REJECTED -> {
+                            txtLoanStatus.text = getString(R.string.txt_view_loan_status_rejected)
                             imgLoanStatus.setImageDrawable(
                                 AppCompatResources.getDrawable(
                                     this,
@@ -51,15 +45,24 @@ class LoansAdapter(private val onClick: (Loan) -> Unit) :
                                 )
                             )
                         }
+                        LoanState.REGISTERED -> {
+                            txtLoanStatus.text = getString(R.string.txt_view_loan_status_registered)
+                            imgLoanStatus.setImageDrawable(
+                                AppCompatResources.getDrawable(
+                                    this,
+                                    R.drawable.icon_loan_registered
+                                )
+                            )
+                        }
                     }
                 }
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LoanViewHolder {
-        val binding = ItemLoanBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemLoanBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return LoanViewHolder(binding, onClick)
     }
 

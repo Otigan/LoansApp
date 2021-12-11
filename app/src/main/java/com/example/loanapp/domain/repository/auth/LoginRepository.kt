@@ -1,4 +1,4 @@
-package com.example.loanapp.domain.repository
+package com.example.loanapp.domain.repository.auth
 
 import com.example.loanapp.data.remote.model.LoginRequestBody
 import com.example.loanapp.util.Resource

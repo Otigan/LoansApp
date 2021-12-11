@@ -2,7 +2,7 @@ package com.example.loanapp.presentation.loan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.loanapp.data.local.db.LoanEntity
+import com.example.loanapp.domain.entity.Loan
 import com.example.loanapp.domain.use_case.auth.TokenUseCase
 import com.example.loanapp.domain.use_case.loan.GetAllLoansUseCase
 import com.example.loanapp.util.Resource
@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 sealed class LoanEvent {
 
-    data class Success(val loans: List<LoanEntity>) : LoanEvent()
-    data class ShowSnackbar(val message: String) : LoanEvent()
+    data class Success(val loans: List<Loan>) : LoanEvent()
+    data class ShowSnackbar(val message: String, val data: List<Loan>) : LoanEvent()
     data class ShowProgressBar(val message: String) : LoanEvent()
 }
 
@@ -40,7 +40,12 @@ class LoansViewModel @Inject constructor(
                             loansEventChannel.send(LoanEvent.Success(resource.data!!))
                         }
                         is Resource.Error -> {
-                            loansEventChannel.send(LoanEvent.ShowSnackbar(resource.errorMessage!!))
+                            loansEventChannel.send(
+                                LoanEvent.ShowSnackbar(
+                                    resource.errorMessage!!,
+                                    resource.data!!
+                                )
+                            )
                         }
                         is Resource.Loading -> {
                             loansEventChannel.send(LoanEvent.ShowProgressBar(""))

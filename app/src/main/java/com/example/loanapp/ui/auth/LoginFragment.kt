@@ -10,8 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentLoginBinding
-import com.example.loanapp.presentation.auth.Event
 import com.example.loanapp.presentation.auth.LoginViewModel
+import com.example.loanapp.util.AuthEvent
 import com.example.loanapp.util.Extensions.checkIfNotEmpty
 import com.example.loanapp.util.Extensions.displaySnackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,15 +42,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             loginViewModel.loginEventFlow.collect { event ->
                 when (event) {
-                    is Event.Success -> {
+                    is AuthEvent.Success -> {
                         binding.progressBarLogin.visibility = View.GONE
                         navigateToLoansFragment()
                     }
-                    is Event.Error -> {
+                    is AuthEvent.Error -> {
                         binding.progressBarLogin.visibility = View.GONE
                         binding.root.displaySnackbar(event.message)
                     }
-                    is Event.Loading -> {
+                    is AuthEvent.Loading -> {
                         binding.progressBarLogin.visibility = View.VISIBLE
                     }
                 }

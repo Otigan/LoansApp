@@ -1,4 +1,4 @@
-package com.example.loanapp.domain.repository
+package com.example.loanapp.domain.repository.loan
 
 import com.example.loanapp.data.local.db.LoanEntity
 import com.example.loanapp.data.remote.model.LoanRequestBody
@@ -9,16 +9,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface LoanRepository {
 
-    fun getLoans(token: String): Flow<Resource<List<LoanEntity>>>
-
-    //suspend fun getAllLoans(token: String): Flow<Resource<List<Loan>>>
+    fun getLoans(token: String): Flow<Resource<List<Loan>>>
 
     suspend fun requestLoan(
         token: String,
         loanRequestBody: LoanRequestBody
-    ): Flow<Resource<Loan>>
+    ): Resource<Loan>
 
-    suspend fun getLoanCondition(token: String): Flow<Resource<LoanCondition>>
+    suspend fun getLoanCondition(token: String): Resource<LoanCondition>
 
 
 }

@@ -3,9 +3,11 @@ package com.example.loanapp.ui.settings
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.viewModels
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import com.example.loanapp.R
+import com.example.loanapp.presentation.auth.LoginViewModel
 import com.example.loanapp.util.Localization
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -13,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SettingsFragment() :
     PreferenceFragmentCompat() {
 
+    private val loginViewModel by viewModels<LoginViewModel>()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_settings, rootKey)

@@ -1,4 +1,4 @@
-package com.example.loanapp.di
+package com.example.loanapp.di.data
 
 import android.content.Context
 import androidx.room.Room

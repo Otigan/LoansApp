@@ -9,9 +9,4 @@ class LoanDataSourceImpl @Inject constructor(private val loansApi: LoansApi) : L
     override suspend fun getAllLoans(token: String?): List<LoanDto> =
         loansApi.getAllLoans(token!!)
 
-
-    /*override suspend fun getAllLoans(token: String?): Flow<Response<List<LoanDto>>> =
-        flow {
-            emit(loansApi.getAllLoans(token!!))
-        }*/
 }

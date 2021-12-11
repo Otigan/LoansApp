@@ -13,11 +13,13 @@
         <action
             android:id="@+id/action_loginFragment_to_loansFragment"
             app:destination="@id/loansFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:launchSingleTop="true" />
     </fragment>
     <fragment
         android:id="@+id/loansFragment"
@@ -26,13 +28,22 @@
         tools:layout="@layout/fragment_loans">
         <action
             android:id="@+id/action_loansFragment_to_requestLoanFragment"
-            app:destination="@id/requestLoanFragment" />
+            app:destination="@id/requestLoanFragment"
+            app:launchSingleTop="true" />
         <action
             android:id="@+id/action_loansFragment_to_loanDetailFragment"
-            app:destination="@id/loanDetailFragment" />
+            app:destination="@id/loanDetailFragment"
+            app:launchSingleTop="true" />
         <action
             android:id="@+id/action_loansFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_loansFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/loansFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -41,6 +52,7 @@
         tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/registerFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -52,16 +64,19 @@
         <action
             android:id="@+id/action_requestLoanFragment_to_loanResultFragment"
             app:destination="@id/loanResultFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/requestLoanFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/loanResultFragment"
         android:name="com.example.loanapp.ui.loan.LoanResultFragment"
-        android:label="fragment_loan_result"
+        android:label="@string/nav_label_loan_result"
+        app:launchSingleTop="true"
         tools:layout="@layout/fragment_loan_result">
         <action
             android:id="@+id/action_loanResultFragment_to_loansFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/loanResultFragment"
             app:popUpToInclusive="true" />
         <argument
@@ -71,7 +86,7 @@
     <fragment
         android:id="@+id/loanDetailFragment"
         android:name="com.example.loanapp.ui.loan.LoanDetailFragment"
-        android:label="fragment_loan_detail"
+        android:label="@string/nav_label_loan_detailed"
         tools:layout="@layout/fragment_loan_detail">
         <argument
             android:name="loan"
@@ -80,5 +95,5 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.loanapp.ui.settings.SettingsFragment"
-        android:label="fragment_settings" />
+        android:label="@string/nav_label_settings" />
 </navigation>

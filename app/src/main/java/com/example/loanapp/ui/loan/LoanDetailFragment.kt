@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentLoanDetailBinding
+import com.example.loanapp.domain.entity.LoanState
 
 class LoanDetailFragment : Fragment(R.layout.fragment_loan_detail) {
 
@@ -31,23 +32,24 @@ class LoanDetailFragment : Fragment(R.layout.fragment_loan_detail) {
         val loan = args.loan
 
         binding.apply {
-            when (loan.state) {
-                "APPROVED" -> {
+            when (LoanState.valueOf(loan.state)) {
+                LoanState.APPROVED -> {
                     txtLoanDetailStatus.text =
-                        getString(R.string.txt_loan_detail_status, "одобрена")
+                        getString(R.string.txt_loan_detail_status_approved)
                     txtLoanDetailDescription.text =
                         getString(R.string.txt_loan_detail_success_description)
                 }
-                "REJECTED" -> {
+                LoanState.REJECTED -> {
                     txtLoanDetailStatus.text =
-                        getString(R.string.txt_loan_detail_status, "отклонена")
+                        getString(R.string.txt_loan_detail_status_rejected)
                     txtLoanDetailDescription.text =
                         getString(R.string.txt_loan_detail_reject_description)
                 }
-                "REGISTERED" -> {
+                LoanState.REGISTERED -> {
                     txtLoanDetailStatus.text =
-                        getString(R.string.txt_loan_detail_status, "на рассмотрении")
-                    txtLoanDetailDescription.text = "Ожидайте рассмотрения заявки"
+                        getString(R.string.txt_loan_detail_status_registered)
+                    txtLoanDetailDescription.text =
+                        getString(R.string.txt_loan_detail_registered_description)
                 }
             }
         }

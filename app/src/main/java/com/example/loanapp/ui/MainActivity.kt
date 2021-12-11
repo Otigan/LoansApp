@@ -30,6 +30,12 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+
+        val lang = sharedPref.getString("lang", "en")
+
+        Localization().setLocale(this, lang!!)
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
 

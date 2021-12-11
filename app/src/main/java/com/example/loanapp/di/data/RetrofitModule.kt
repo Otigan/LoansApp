@@ -1,4 +1,4 @@
-package com.example.loanapp.di
+package com.example.loanapp.di.data
 
 import com.example.loanapp.data.remote.api.LoansApi
 import com.example.loanapp.data.remote.api.LoansApi.Companion.BASE_URL

@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentRegisterBinding
-import com.example.loanapp.presentation.auth.Event
 import com.example.loanapp.presentation.auth.RegisterViewModel
+import com.example.loanapp.util.AuthEvent
 import com.example.loanapp.util.Extensions.checkIfNotEmpty
 import com.example.loanapp.util.Extensions.checkIfPasswordsAreSame
 import com.example.loanapp.util.Extensions.displaySnackbar
@@ -40,12 +40,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             registerViewModel.userFlow.collect { event ->
                 when (event) {
-                    is Event.Error -> {
+                    is AuthEvent.Error -> {
                         binding.root.displaySnackbar(event.message)
                     }
-                    is Event.Success -> {
+                    is AuthEvent.Success -> {
                         navigateToLoginFragment()
                     }
+                    else -> {}
                 }
             }
         }

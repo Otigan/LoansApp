@@ -1,4 +1,4 @@
-package com.example.loanapp.di
+package com.example.loanapp.di.data
 
 import com.example.loanapp.data.remote.data_source.auth.LoginDataSource
 import com.example.loanapp.data.remote.data_source.auth.LoginDataSourceImpl

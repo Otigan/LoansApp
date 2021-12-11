@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ListPreference
+        android:defaultValue="ru"
         android:entries="@array/language_array"
         android:entryValues="@array/language_code"
         android:key="appLanguage"
-        android:title="@string/language_list_title" />
+        android:title="@string/language_list_title"
+        app:defaultValue="en" />
 
 </PreferenceScreen>
