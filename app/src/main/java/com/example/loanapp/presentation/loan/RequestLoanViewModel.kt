@@ -47,11 +47,15 @@ class RequestLoanViewModel @Inject constructor(
             tokenUseCase.getSavedToken().collect { token ->
                 when (val resource = requestLoanUseCase.invoke(token, loanRequestBody)) {
                     is Resource.Error -> {
-                        loanChannel.send(LoanRequestEvent.ShowSnackbar(resource.errorMessage!!))
+                        resource.errorMessage?.let { errorMessage ->
+                            loanChannel.send(LoanRequestEvent.ShowSnackbar(errorMessage))
+                        }
                     }
                     is Resource.Loading -> TODO()
                     is Resource.Success -> {
-                        loanChannel.send(LoanRequestEvent.Success(resource.data!!))
+                        resource.data?.let { loan ->
+                            loanChannel.send(LoanRequestEvent.Success(loan))
+                        }
                     }
                 }
             }
@@ -63,11 +67,19 @@ class RequestLoanViewModel @Inject constructor(
             tokenUseCase.getSavedToken().collect { token ->
                 when (val resource = getLoanConditionUseCase(token)) {
                     is Resource.Error -> {
-                        loanConditionChannel.send(LoanConditionEvent.ShowSnackBar(resource.errorMessage!!))
+                        resource.errorMessage?.let { errorMessage ->
+                            loanConditionChannel.send(LoanConditionEvent.ShowSnackBar(errorMessage))
+                        }
                     }
                     is Resource.Loading -> TODO()
                     is Resource.Success -> {
-                        loanConditionChannel.send(LoanConditionEvent.LoanConditionSuccess(resource.data!!))
+                        resource.data?.let { loanCondition ->
+                            loanConditionChannel.send(
+                                LoanConditionEvent.LoanConditionSuccess(
+                                    loanCondition
+                                )
+                            )
+                        }
                     }
                 }
             }

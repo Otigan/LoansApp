@@ -1,10 +1,16 @@
 package com.example.loanapp.util
 
 
-sealed class AuthEvent {
-    object Success : AuthEvent()
-    data class Error(val message: String) : AuthEvent()
-    object Loading : AuthEvent()
-    object Logout : AuthEvent()
+sealed class LoginEvent {
+    object Success : LoginEvent()
+    data class Error(val message: String) : LoginEvent()
+    object Loading : LoginEvent()
+    object Logout : LoginEvent()
+}
+
+sealed class RegisterEvent {
+    object Success : RegisterEvent()
+    data class Error(val message: String) : RegisterEvent()
+    object Loading : RegisterEvent()
 }
 

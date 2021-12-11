@@ -37,15 +37,21 @@ class LoansViewModel @Inject constructor(
                 getAllLoansUseCase(token).collect { resource ->
                     when (resource) {
                         is Resource.Success -> {
-                            loansEventChannel.send(LoanEvent.Success(resource.data!!))
+                            resource.data?.let { loans ->
+                                loansEventChannel.send(LoanEvent.Success(loans))
+                            }
                         }
                         is Resource.Error -> {
-                            loansEventChannel.send(
-                                LoanEvent.ShowSnackbar(
-                                    resource.errorMessage!!,
-                                    resource.data!!
-                                )
-                            )
+                            resource.errorMessage?.let { errorMessage ->
+                                resource.data?.let { loans ->
+                                    loansEventChannel.send(
+                                        LoanEvent.ShowSnackbar(
+                                            errorMessage,
+                                            loans
+                                        )
+                                    )
+                                }
+                            }
                         }
                         is Resource.Loading -> {
                             loansEventChannel.send(LoanEvent.ShowProgressBar(""))

@@ -12,10 +12,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentRegisterBinding
 import com.example.loanapp.presentation.auth.RegisterViewModel
-import com.example.loanapp.util.AuthEvent
 import com.example.loanapp.util.Extensions.checkIfNotEmpty
 import com.example.loanapp.util.Extensions.checkIfPasswordsAreSame
 import com.example.loanapp.util.Extensions.displaySnackbar
+import com.example.loanapp.util.RegisterEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -40,10 +40,10 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             registerViewModel.userFlow.collect { event ->
                 when (event) {
-                    is AuthEvent.Error -> {
+                    is RegisterEvent.Error -> {
                         binding.root.displaySnackbar(event.message)
                     }
-                    is AuthEvent.Success -> {
+                    is RegisterEvent.Success -> {
                         navigateToLoginFragment()
                     }
                     else -> {}

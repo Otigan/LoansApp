@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.loanapp.data.remote.model.LoginRequestBody
 import com.example.loanapp.domain.use_case.auth.LoginUseCase
 import com.example.loanapp.domain.use_case.auth.TokenUseCase
-import com.example.loanapp.util.AuthEvent
+import com.example.loanapp.util.LoginEvent
 import com.example.loanapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -21,13 +21,13 @@ class LoginViewModel @Inject constructor(
     private val tokenUseCase: TokenUseCase
 ) : ViewModel() {
 
-    private val loginEventChannel = Channel<AuthEvent>()
+    private val loginEventChannel = Channel<LoginEvent>()
     val loginEventFlow = loginEventChannel.receiveAsFlow()
 
     fun loginFromToken() = viewModelScope.launch {
         tokenUseCase.getSavedToken().collect { token ->
             if (token.isNotBlank()) {
-                loginEventChannel.send(AuthEvent.Success)
+                loginEventChannel.send(LoginEvent.Success)
             }
         }
     }
@@ -42,13 +42,17 @@ class LoginViewModel @Inject constructor(
         )
         when (resource) {
             is Resource.Error -> {
-                loginEventChannel.send(AuthEvent.Error(resource.errorMessage!!))
+                resource.errorMessage?.let { errorMessage ->
+                    loginEventChannel.send(LoginEvent.Error(errorMessage))
+                }
             }
             is Resource.Loading -> {
-                loginEventChannel.send(AuthEvent.Loading)
+                loginEventChannel.send(LoginEvent.Loading)
             }
             is Resource.Success -> {
-                saveToken(resource.data!!)
+                resource.data?.let { token ->
+                    saveToken(token)
+                }
             }
         }
     }

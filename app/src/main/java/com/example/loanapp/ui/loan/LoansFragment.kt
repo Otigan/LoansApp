@@ -46,7 +46,7 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
             navigateToLoanDetailFragment(loan)
         })
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             loansViewModel.apply {
                 getAllLoans()
                 loansEventFlow.collect { event ->

@@ -3,10 +3,10 @@ package com.example.loanapp.util
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
+import com.example.loanapp.util.Common.LANGUAGE_PREFS
+import com.example.loanapp.util.Common.SELECTED_LANGUAGE
 import java.util.*
 
-const val LANGUAGE_PREFS = "PREFERENCES_LANGUAGE"
-const val SELECTED_LANGUAGE = "lang"
 
 class Localization {
 

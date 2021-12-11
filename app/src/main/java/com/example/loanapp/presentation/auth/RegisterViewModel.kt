@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loanapp.data.remote.model.RegisterRequestBody
 import com.example.loanapp.domain.use_case.auth.RegisterUseCase
-import com.example.loanapp.util.AuthEvent
+import com.example.loanapp.util.RegisterEvent
 import com.example.loanapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class RegisterViewModel @Inject constructor(private val registerUseCase: RegisterUseCase) :
     ViewModel() {
 
-    private val userChannel = Channel<AuthEvent>()
+    private val userChannel = Channel<RegisterEvent>()
     val userFlow = userChannel.receiveAsFlow()
 
     fun register(name: String, password: String) = viewModelScope.launch {
@@ -30,10 +30,12 @@ class RegisterViewModel @Inject constructor(private val registerUseCase: Registe
         )
         when (resource) {
             is Resource.Error -> {
-                userChannel.send(AuthEvent.Error(resource.errorMessage!!))
+                resource.errorMessage?.let { errorMessage ->
+                    userChannel.send(RegisterEvent.Error(errorMessage))
+                }
             }
             is Resource.Success -> {
-                userChannel.send(AuthEvent.Success)
+                userChannel.send(RegisterEvent.Success)
             }
             is Resource.Loading -> TODO()
         }

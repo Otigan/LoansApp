@@ -1,6 +1,6 @@
 package com.example.loanapp.domain.entity
 
 data class User(
-    val name: String? = null,
-    val role: String? = null,
+    val name: String,
+    val role: String,
 )

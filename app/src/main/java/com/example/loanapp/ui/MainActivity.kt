@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.loanapp.R
 import com.example.loanapp.databinding.ActivityMainBinding
+import com.example.loanapp.util.Common.SELECTED_LANGUAGE
 import com.example.loanapp.util.Localization
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
 
-        val lang = sharedPref.getString("lang", "en")
+        val lang = sharedPref.getString(SELECTED_LANGUAGE, "en")
 
         Localization().setLocale(this, lang!!)
 
