@@ -2,7 +2,6 @@ package com.example.loanapp.util
 
 import android.content.Context
 import com.example.loanapp.R
-import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -15,7 +14,7 @@ enum class ErrorCodes(val code: Int) {
 }
 
 @Singleton
-open class ResponseHandler @Inject constructor(@ApplicationContext private val context: Context) {
+open class ResponseHandler @Inject constructor(private val context: Context) {
 
     fun <T> handleSuccess(data: T): Resource<T> {
         return Resource.Success(data)

@@ -8,6 +8,8 @@ class TokenUseCase @Inject constructor(private val loginDataStoreRepository: Log
 
     suspend fun saveToken(token: String) = loginDataStoreRepository.saveToken(token)
 
+    suspend fun removeToken() = loginDataStoreRepository.removeToken()
+
     fun getSavedToken(): Flow<String> = loginDataStoreRepository.savedToken
 
 }

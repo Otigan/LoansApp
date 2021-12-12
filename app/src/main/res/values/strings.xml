@@ -2,6 +2,10 @@
 
     <string name="app_name">LoanApp</string>
 
+    <!--  EditText error  -->
+    <string name="empty_field_error">Please, fill this field</string>
+    <string name="password_doesnt_match">Passwords doesn\'\t match</string>
+
     <!--  Navigation labels  -->
     <string name="nav_label_login">Login</string>
     <string name="nav_label_register">Register</string>
@@ -44,7 +48,7 @@
     <string name="edit_txt_request_loan_firstName">Enter your name</string>
     <string name="edit_txt_request_loan_amount">Enter the loan amount</string>
     <string name="txt_view_loan_period">Loan period: %d</string>
-    <string name="txt_view_loan_percent">Loan interest: %.3f</string>
+    <string name="txt_view_loan_percent">Loan interest: %.2f</string>
     <string name="txt_view_loan_max_amount">Maximum loan amount: %d</string>
     <string name="txt_view_loan_conditions">Loan terms and conditions</string>
     <string name="nav_label_request_loan">Loan application</string>

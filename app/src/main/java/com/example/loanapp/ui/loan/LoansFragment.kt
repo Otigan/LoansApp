@@ -1,6 +1,7 @@
 package com.example.loanapp.ui.loan
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -10,12 +11,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentLoansBinding
 import com.example.loanapp.domain.entity.Loan
-import com.example.loanapp.presentation.auth.LogoutViewModel
+import com.example.loanapp.presentation.auth.LoginViewModel
 import com.example.loanapp.presentation.loan.LoanEvent
 import com.example.loanapp.presentation.loan.LoansViewModel
 import com.example.loanapp.ui.adapter.LoansAdapter
 import com.example.loanapp.util.Common.sortLoansByDescending
 import com.example.loanapp.util.Extensions.displaySnackbar
+import com.example.loanapp.util.LoginEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -27,7 +29,7 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
     private val binding get() = _binding!!
     private lateinit var loansAdapter: LoansAdapter
     private val loansViewModel by viewModels<LoansViewModel>()
-    private val logoutViewModel by viewModels<LogoutViewModel>()
+    private val loginViewModel by viewModels<LoginViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +47,14 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
         loansAdapter = LoansAdapter(onClick = { loan ->
             navigateToLoanDetailFragment(loan)
         })
+
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            loginViewModel.loginEventFlow.collect { event ->
+                if (event is LoginEvent.Logout) {
+                    logout()
+                }
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             loansViewModel.apply {
@@ -96,7 +106,7 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
                     }
                     .setPositiveButton(
                         getString(R.string.dialog_logout_positive_button)
-                    ) { _, _ -> logout() }
+                    ) { _, _ -> loginViewModel.logout() }
                     .create()
                     .show()
 
@@ -110,7 +120,6 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
     }
 
     private fun logout() {
-        logoutViewModel.logout()
         val action = LoansFragmentDirections.actionLoansFragmentToLoginFragment()
         findNavController().navigate(action)
     }

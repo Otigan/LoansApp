@@ -1,5 +1,6 @@
 package com.example.loanapp.presentation.auth
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loanapp.data.remote.model.LoginRequestBody
@@ -24,10 +25,13 @@ class LoginViewModel @Inject constructor(
     private val loginEventChannel = Channel<LoginEvent>()
     val loginEventFlow = loginEventChannel.receiveAsFlow()
 
-    fun loginFromToken() = viewModelScope.launch {
+
+    fun checkToken() = viewModelScope.launch {
         tokenUseCase.getSavedToken().collect { token ->
             if (token.isNotBlank()) {
                 loginEventChannel.send(LoginEvent.Success)
+            } else {
+                loginEventChannel.send(LoginEvent.Logout)
             }
         }
     }
@@ -57,6 +61,10 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun logout() = viewModelScope.launch {
+        tokenUseCase.removeToken()
+        checkToken()
+    }
 
     private suspend fun saveToken(token: String) = tokenUseCase.saveToken(token)
 }

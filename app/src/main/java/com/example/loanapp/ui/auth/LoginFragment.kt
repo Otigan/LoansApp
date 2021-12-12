@@ -1,5 +1,6 @@
 package com.example.loanapp.ui.auth
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentLoginBinding
 import com.example.loanapp.presentation.auth.LoginViewModel
-import com.example.loanapp.util.LoginEvent
+import com.example.loanapp.util.Common
 import com.example.loanapp.util.Extensions.checkIfNotEmpty
 import com.example.loanapp.util.Extensions.displaySnackbar
+import com.example.loanapp.util.Localization
+import com.example.loanapp.util.LoginEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -37,7 +40,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loginViewModel.loginFromToken()
+        loginViewModel.checkToken()
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             loginViewModel.loginEventFlow.collect { event ->

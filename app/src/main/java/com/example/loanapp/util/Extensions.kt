@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.example.loanapp.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 
@@ -17,7 +18,7 @@ object Extensions {
         val inputLayout = this.editText
         val inputText = inputLayout?.text.toString()
         return if (inputText.isBlank()) {
-            this.error = "Пожалуйста, заполните это поле"
+            this.error = this.context.getString(R.string.empty_field_error)
             false
         } else {
             this.error = ""
@@ -29,7 +30,7 @@ object Extensions {
         val inputConfPassword = this.editText?.text.toString()
         val inputPassword = password.editText?.text.toString()
         return if (inputPassword != inputConfPassword) {
-            this.error = "Пароли не совпадают"
+            this.error = this.context.getString(R.string.password_doesnt_match)
             false
         } else {
             this.error = ""

@@ -12,6 +12,7 @@ import javax.inject.Inject
 class LogoutViewModel @Inject constructor(private val tokenUseCase: TokenUseCase) : ViewModel() {
 
 
+
     fun logout() = viewModelScope.launch {
         tokenUseCase.saveToken(
             ""

@@ -4,38 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/loginFragment">
-
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.loanapp.ui.auth.LoginFragment"
         android:label="@string/nav_label_login"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_loginFragment_to_loansFragment"
-            app:destination="@id/loansFragment"
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/loansFragment"
-        android:name="com.example.loanapp.ui.loan.LoansFragment"
-        android:label="@string/nav_label_loans"
-        tools:layout="@layout/fragment_loans">
-        <action
-            android:id="@+id/action_loansFragment_to_requestLoanFragment"
-            app:destination="@id/requestLoanFragment" />
-        <action
-            android:id="@+id/action_loansFragment_to_loanDetailFragment"
-            app:destination="@id/loanDetailFragment" />
-        <action
-            android:id="@+id/action_loansFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-        <action
-            android:id="@+id/action_loansFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_loginFragment_to_loansFragment"
+            app:destination="@id/loansFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -44,35 +29,34 @@
         tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/requestLoanFragment"
-        android:name="com.example.loanapp.ui.loan.RequestLoanFragment"
-        android:label="@string/nav_label_request_loan"
-        tools:layout="@layout/fragment_request_loan">
-        <action
-            android:id="@+id/action_requestLoanFragment_to_loanResultFragment"
-            app:destination="@id/loanResultFragment"
-
-            app:popUpTo="@id/requestLoanFragment"
+            app:destination="@id/loginFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/registerFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
-        android:id="@+id/loanResultFragment"
-        android:name="com.example.loanapp.ui.loan.LoanResultFragment"
-        android:label="@string/nav_label_loan_result"
-        app:launchSingleTop="true"
-        tools:layout="@layout/fragment_loan_result">
+        android:id="@+id/loansFragment"
+        android:name="com.example.loanapp.ui.loan.LoansFragment"
+        android:label="@string/nav_label_loans"
+        tools:layout="@layout/fragment_loans">
         <action
-            android:id="@+id/action_loanResultFragment_to_loansFragment"
-            app:destination="@id/loansFragment"
-
-            app:popUpTo="@id/loanResultFragment"
+            android:id="@+id/action_loansFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/loansFragment"
             app:popUpToInclusive="true" />
-        <argument
-            android:name="loan_amount"
-            app:argType="integer" />
+        <action
+            android:id="@+id/action_loansFragment_to_loanDetailFragment"
+            app:destination="@id/loanDetailFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_loansFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_loansFragment_to_requestLoanFragment"
+            app:destination="@id/requestLoanFragment"
+            app:launchSingleTop="true" />
     </fragment>
     <fragment
         android:id="@+id/loanDetailFragment"
@@ -82,22 +66,35 @@
         <argument
             android:name="loan"
             app:argType="com.example.loanapp.domain.entity.Loan" />
+    </fragment>
+    <fragment
+        android:id="@+id/loanResultFragment"
+        android:name="com.example.loanapp.ui.loan.LoanResultFragment"
+        android:label="@string/nav_label_loan_result"
+        tools:layout="@layout/fragment_loan_result">
+        <argument
+            android:name="loanAmount"
+            app:argType="integer" />
         <action
-            android:id="@+id/action_loanDetailFragment_to_loansFragment"
+            android:id="@+id/action_loanResultFragment_to_loansFragment"
             app:destination="@id/loansFragment"
-
-            app:popUpTo="@id/loanDetailFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/loanResultFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestLoanFragment"
+        android:name="com.example.loanapp.ui.loan.RequestLoanFragment"
+        android:label="@string/nav_label_request_loan"
+        tools:layout="@layout/fragment_request_loan">
+        <action
+            android:id="@+id/action_requestLoanFragment_to_loanResultFragment"
+            app:destination="@id/loanResultFragment"
+            app:popUpTo="@id/requestLoanFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.loanapp.ui.settings.SettingsFragment"
-        android:label="@string/nav_label_settings">
-        <action
-            android:id="@+id/action_settingsFragment_to_loansFragment"
-            app:destination="@id/loansFragment"
-
-            app:popUpTo="@id/settingsFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:label="@string/nav_label_settings" />
 </navigation>

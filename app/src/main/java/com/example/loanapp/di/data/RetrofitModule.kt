@@ -1,10 +1,13 @@
 package com.example.loanapp.di.data
 
+import android.content.Context
 import com.example.loanapp.data.remote.api.LoansApi
 import com.example.loanapp.data.remote.api.LoansApi.Companion.BASE_URL
+import com.example.loanapp.util.ResponseHandler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -40,4 +43,9 @@ object RetrofitModule {
     @Singleton
     fun provideLoansApi(retrofit: Retrofit): LoansApi =
         retrofit.create(LoansApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideResponseHandler(@ApplicationContext context: Context): ResponseHandler =
+        ResponseHandler(context)
 }

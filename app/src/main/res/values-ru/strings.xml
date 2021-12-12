@@ -69,5 +69,7 @@
     <string name="dialog_logout_title">Вы точно хотите выйти из аккаунта?</string>
     <string name="dialog_logout_positive_button">Да</string>
     <string name="dialog_logout_negative_button">Нет</string>
+    <string name="empty_field_error">Пожалуйста, заполните это поле</string>
+    <string name="password_doesnt_match">Пароли не совпадают</string>
 
 </resources>
