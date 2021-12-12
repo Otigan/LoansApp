@@ -10,19 +10,13 @@ interface LoansApi {
         const val BASE_URL = "https://focusstart.appspot.com/"
     }
 
-    @Headers(
-        "Content-Type: application/json",
-        "accept: */*"
-    )
+
     @POST("registration")
     suspend fun register(
         @Body registerRequestBody: RegisterRequestBody
     ): UserDto
 
-    @Headers(
-        "Content-Type: application/json",
-        "accept: */*"
-    )
+
     @POST("login")
     suspend fun login(
         @Body loginRequestBody: LoginRequestBody
