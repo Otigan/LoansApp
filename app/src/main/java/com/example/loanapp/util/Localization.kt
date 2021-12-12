@@ -7,7 +7,7 @@ import com.example.loanapp.util.Common.LANGUAGE_PREFS
 import com.example.loanapp.util.Common.SELECTED_LANGUAGE
 import java.util.*
 
-
+//TODO: предлагаю унести это в датасурс
 class Localization {
 
     fun onAttach(context: Context): Context {

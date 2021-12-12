@@ -136,6 +136,7 @@ class RequestLoanFragment : Fragment(R.layout.fragment_request_loan) {
                 binding.txtFieldAmount.error = getString(R.string.request_loan_amount_error)
                 false
             }
+            //TODO: эти проверки не нужны значения процента и периода уже заранее известны
             loan.percent != loadedLoanCondition.percent -> {
                 binding.txtFieldPercent.error = getString(R.string.request_loan_percent_error)
                 false

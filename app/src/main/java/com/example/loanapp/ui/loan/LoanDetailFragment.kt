@@ -32,7 +32,8 @@ class LoanDetailFragment : Fragment(R.layout.fragment_loan_detail) {
         val loan = args.loan
 
         binding.apply {
-            when (LoanState.valueOf(loan.state)) {
+            val state = LoanState.values().find { it.name == loan.state } ?: LoanState.UNKNOWN
+            when (state) {
                 LoanState.APPROVED -> {
                     txtLoanDetailStatus.text =
                         getString(R.string.txt_loan_detail_status_approved)

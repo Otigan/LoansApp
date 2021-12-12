@@ -37,7 +37,7 @@ class RegisterViewModel @Inject constructor(private val registerUseCase: Registe
             is Resource.Success -> {
                 userChannel.send(RegisterEvent.Success)
             }
-            is Resource.Loading -> TODO()
+            is Resource.Loading -> TODO() //TODO: не забудь убрать это а то свалиться с NotImplementedError
         }
     }
 }

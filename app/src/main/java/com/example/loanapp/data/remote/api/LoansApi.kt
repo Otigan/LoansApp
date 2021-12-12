@@ -35,6 +35,9 @@ interface LoansApi {
 
     @POST("loans")
     suspend fun requestLoan(
+        /**TODO: "Authorization" несколько раз встречается. Может в костанту унести?
+         * Еще вариант вообще это в интерцептор okhttp унсети
+         */
         @Header("Authorization") token: String,
         @Body loanRequestBody: LoanRequestBody
     ): LoanDto

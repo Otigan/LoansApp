@@ -14,6 +14,7 @@ class LogoutViewModel @Inject constructor(private val tokenUseCase: TokenUseCase
 
 
     fun logout() = viewModelScope.launch {
+        //TODO: а почему не removeToken?
         tokenUseCase.saveToken(
             ""
         )

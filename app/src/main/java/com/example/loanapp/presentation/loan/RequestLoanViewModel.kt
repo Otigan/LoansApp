@@ -51,7 +51,7 @@ class RequestLoanViewModel @Inject constructor(
                             loanChannel.send(LoanRequestEvent.ShowSnackbar(errorMessage))
                         }
                     }
-                    is Resource.Loading -> TODO()
+                    is Resource.Loading -> TODO() //TODO: не забудь убрать это а то свалиться с NotImplementedError
                     is Resource.Success -> {
                         resource.data?.let { loan ->
                             loanChannel.send(LoanRequestEvent.Success(loan))
@@ -71,7 +71,7 @@ class RequestLoanViewModel @Inject constructor(
                             loanConditionChannel.send(LoanConditionEvent.ShowSnackBar(errorMessage))
                         }
                     }
-                    is Resource.Loading -> TODO()
+                    is Resource.Loading -> TODO() //TODO: не забудь убрать это а то свалиться с NotImplementedError
                     is Resource.Success -> {
                         resource.data?.let { loanCondition ->
                             loanConditionChannel.send(

@@ -15,6 +15,11 @@ private val Context.loginDataStore: DataStore<Preferences> by preferencesDataSto
 
 @Singleton
 class LoginDataStoreRepository @Inject constructor(
+    /**
+     * TODO: сюда лучше сразу датастор передавать.
+     * Ты же не все возможности контекста используешь
+     * А еще лучще в датасурс завернуть
+     */
     @ApplicationContext private val context: Context
 ) {
 
