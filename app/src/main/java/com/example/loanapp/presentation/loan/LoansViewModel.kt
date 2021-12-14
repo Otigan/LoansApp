@@ -3,7 +3,6 @@ package com.example.loanapp.presentation.loan
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loanapp.domain.entity.Loan
-import com.example.loanapp.domain.use_case.auth.TokenUseCase
 import com.example.loanapp.domain.use_case.loan.GetAllLoansUseCase
 import com.example.loanapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,9 +22,7 @@ sealed class LoanEvent {
 @HiltViewModel
 class LoansViewModel @Inject constructor(
     private val getAllLoansUseCase: GetAllLoansUseCase,
-    private val tokenUseCase: TokenUseCase
-) :
-    ViewModel() {
+) : ViewModel() {
 
     private val loansEventChannel = Channel<LoanEvent>()
     val loansEventFlow = loansEventChannel.receiveAsFlow()
@@ -33,29 +30,27 @@ class LoansViewModel @Inject constructor(
 
     fun getAllLoans() =
         viewModelScope.launch {
-            tokenUseCase.getSavedToken().collect { token ->
-                getAllLoansUseCase(token).collect { resource ->
-                    when (resource) {
-                        is Resource.Success -> {
+            getAllLoansUseCase().collect { resource ->
+                when (resource) {
+                    is Resource.Success -> {
+                        resource.data?.let { loans ->
+                            loansEventChannel.send(LoanEvent.Success(loans))
+                        }
+                    }
+                    is Resource.Error -> {
+                        resource.errorMessage?.let { errorMessage ->
                             resource.data?.let { loans ->
-                                loansEventChannel.send(LoanEvent.Success(loans))
-                            }
-                        }
-                        is Resource.Error -> {
-                            resource.errorMessage?.let { errorMessage ->
-                                resource.data?.let { loans ->
-                                    loansEventChannel.send(
-                                        LoanEvent.ShowSnackbar(
-                                            errorMessage,
-                                            loans
-                                        )
+                                loansEventChannel.send(
+                                    LoanEvent.ShowSnackbar(
+                                        errorMessage,
+                                        loans
                                     )
-                                }
+                                )
                             }
                         }
-                        is Resource.Loading -> {
-                            loansEventChannel.send(LoanEvent.ShowProgressBar(""))
-                        }
+                    }
+                    is Resource.Loading -> {
+                        loansEventChannel.send(LoanEvent.ShowProgressBar(""))
                     }
                 }
             }

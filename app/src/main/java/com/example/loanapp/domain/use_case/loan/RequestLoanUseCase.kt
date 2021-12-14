@@ -9,9 +9,8 @@ import javax.inject.Inject
 class RequestLoanUseCase @Inject constructor(private val loanRepository: LoanRepository) {
 
     suspend operator fun invoke(
-        token: String,
         loanRequestBody: LoanRequestBody
     ): Resource<Loan> =
-        loanRepository.requestLoan(token, loanRequestBody)
+        loanRepository.requestLoan(loanRequestBody)
 
 }

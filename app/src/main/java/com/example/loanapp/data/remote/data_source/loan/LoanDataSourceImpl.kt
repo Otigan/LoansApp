@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class LoanDataSourceImpl @Inject constructor(private val loansApi: LoansApi) : LoanDataSource {
 
-    override suspend fun getAllLoans(token: String?): List<LoanDto> =
-        loansApi.getAllLoans(token!!)
+    override suspend fun getAllLoans(): List<LoanDto> =
+        loansApi.getAllLoans()
 
 }

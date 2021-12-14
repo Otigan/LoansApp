@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class GetAllLoansUseCase @Inject constructor(private val loansRepository: LoanRepository) {
 
-    operator fun invoke(token: String): Flow<Resource<List<Loan>>> =
-        loansRepository.getLoans(token)
+    operator fun invoke(): Flow<Resource<List<Loan>>> =
+        loansRepository.getLoans()
 
 }

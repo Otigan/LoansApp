@@ -13,10 +13,9 @@ class UserMapper @Inject constructor() {
         )
 
     fun mapUserToUserDto(user: User): UserDto =
-        //TODO: зачем тут ассерт операторы?
         UserDto(
-            name = user.name!!,
-            role = user.role!!
+            name = user.name,
+            role = user.role
         )
 
 }

@@ -1,5 +1,10 @@
 package com.example.loanapp.util
 
+sealed class BaseEvent {
+    class Success: BaseEvent()
+    data class Error(val message: String): BaseEvent()
+    class Loading: BaseEvent()
+}
 
 sealed class LoginEvent {
     object Success : LoginEvent()

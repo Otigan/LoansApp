@@ -6,7 +6,6 @@ import com.example.loanapp.data.remote.model.LoanRequestBody
 interface LoanRequestDataSource {
 
     suspend fun requestLoan(
-        token: String?,
         loanRequestBody: LoanRequestBody
     ): LoanDto
 

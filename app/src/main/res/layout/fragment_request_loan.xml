@@ -25,7 +25,7 @@
         android:text="@string/txt_view_loan_conditions"
         android:textColor="?MainTextViewColor"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@id/txt_field_amount"
+        app:layout_constraintBottom_toTopOf="@id/txt_view_loan_max_amount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -114,7 +114,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/edit_txt_request_loan_lastName"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@id/txt_field_percent"
+        app:layout_constraintBottom_toTopOf="@id/txt_field_phone_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_field_firstName">
@@ -127,43 +127,6 @@
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txt_field_percent"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/edit_txt_request_loan_percent"
-        app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@id/txt_field_period"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_field_lastName">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:inputType="numberDecimal"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txt_field_period"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/edit_txt_request_loan_period"
-        app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@id/txt_field_phone_number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_field_percent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:inputType="number"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txt_field_phone_number"
@@ -174,7 +137,7 @@
         app:layout_constraintBottom_toTopOf="@id/btn_request_loan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_field_period">
+        app:layout_constraintTop_toBottomOf="@id/txt_field_lastName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"

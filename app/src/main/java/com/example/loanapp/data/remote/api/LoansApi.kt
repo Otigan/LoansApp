@@ -2,7 +2,9 @@ package com.example.loanapp.data.remote.api
 
 import com.example.loanapp.data.remote.model.*
 import com.example.loanapp.domain.entity.LoanCondition
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
 
 interface LoansApi {
 
@@ -10,19 +12,11 @@ interface LoansApi {
         const val BASE_URL = "https://focusstart.appspot.com/"
     }
 
-    @Headers(
-        "Content-Type: application/json",
-        "accept: */*"
-    )
     @POST("registration")
     suspend fun register(
         @Body registerRequestBody: RegisterRequestBody
     ): UserDto
 
-    @Headers(
-        "Content-Type: application/json",
-        "accept: */*"
-    )
     @POST("login")
     suspend fun login(
         @Body loginRequestBody: LoginRequestBody
@@ -30,20 +24,15 @@ interface LoansApi {
 
 
     @GET("loans/all")
-    suspend fun getAllLoans(@Header("Authorization") token: String): List<LoanDto>
+    suspend fun getAllLoans(): List<LoanDto>
 
 
     @POST("loans")
     suspend fun requestLoan(
-        /**TODO: "Authorization" несколько раз встречается. Может в костанту унести?
-         * Еще вариант вообще это в интерцептор okhttp унсети
-         */
-        @Header("Authorization") token: String,
         @Body loanRequestBody: LoanRequestBody
     ): LoanDto
 
     @GET("loans/conditions")
     suspend fun getLoanCondition(
-        @Header("Authorization") token: String
     ): LoanCondition
 }

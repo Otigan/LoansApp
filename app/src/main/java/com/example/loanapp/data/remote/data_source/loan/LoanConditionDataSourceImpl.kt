@@ -7,7 +7,7 @@ import javax.inject.Inject
 class LoanConditionDataSourceImpl @Inject constructor(private val loansApi: LoansApi) :
     LoanConditionDataSource {
 
-    override suspend fun getLoanCondition(token: String?): LoanCondition =
-        loansApi.getLoanCondition(token!!)
+    override suspend fun getLoanCondition(): LoanCondition =
+        loansApi.getLoanCondition()
 
 }

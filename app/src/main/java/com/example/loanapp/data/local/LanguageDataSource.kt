@@ -1,47 +1,60 @@
-package com.example.loanapp.util
+package com.example.loanapp.data.local
 
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
-import com.example.loanapp.util.Common.LANGUAGE_PREFS
-import com.example.loanapp.util.Common.SELECTED_LANGUAGE
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import com.example.loanapp.data.local.repository.PreferenceKey
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import java.util.*
+import javax.inject.Inject
 
-//TODO: предлагаю унести это в датасурс
-class Localization {
-
-    fun onAttach(context: Context): Context {
-        val lang = getPersistedData(context, Locale.getDefault().language).toString()
-        return setLocale(context, lang)
-    }
-
-    fun getLanguage(context: Context): String {
-        return getPersistedData(context, Locale.getDefault().language).toString()
-    }
+class LanguageDataSource @Inject constructor(
+    private val loginDataStore: DataStore<Preferences>,
+) {
 
     fun setLocale(context: Context, language: String): Context {
-        persist(context, language)
-
+        runBlocking {
+            saveLanguage(language)
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return updateResources(context, language)
         }
 
         return updateResourcesLegacy(context, language)
-
     }
 
-    private fun getPersistedData(context: Context, defaultLanguage: String): String? {
-        val preferences = context.getSharedPreferences(LANGUAGE_PREFS, Context.MODE_PRIVATE)
-        return preferences.getString(SELECTED_LANGUAGE, defaultLanguage)
+    fun getLanguage(): String {
+        val lang: String
+        runBlocking {
+            lang = selectedLanguage.first()
+        }
+        return lang
     }
 
-    private fun persist(context: Context, language: String) {
-        val preferences = context.getSharedPreferences(LANGUAGE_PREFS, Context.MODE_PRIVATE)
-        val editor = preferences.edit()
-
-        editor.putString(SELECTED_LANGUAGE, language)
-        editor.apply()
+    private suspend fun saveLanguage(language: String) {
+        loginDataStore.edit { preferences ->
+            preferences[PreferenceKey.language] = language
+        }
     }
+
+    fun onAttach(context: Context): Context {
+        val lang: String
+        runBlocking {
+            lang = selectedLanguage.first()
+        }
+        return setLocale(context, lang)
+    }
+
+    private val selectedLanguage: Flow<String> =
+        loginDataStore.data.map { preferences ->
+            preferences[PreferenceKey.language] ?: ""
+        }
 
     @TargetApi(Build.VERSION_CODES.N)
     private fun updateResources(context: Context, language: String): Context {
@@ -70,4 +83,5 @@ class Localization {
 
         return context
     }
+
 }

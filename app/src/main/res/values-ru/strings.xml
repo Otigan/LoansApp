@@ -25,8 +25,6 @@
     <string name="edit_txt_request_loan_amount">Введите сумму займа</string>
     <string name="edit_txt_request_loan_firstName">Введите ваше имя</string>
     <string name="edit_txt_request_loan_lastName">Введите вашу фамилию</string>
-    <string name="edit_txt_request_loan_percent">Введите процент займа</string>
-    <string name="edit_txt_request_loan_period">Введите период займа</string>
     <string name="edit_txt_request_loan_phone_number">Введите ваш номер телефона</string>
     <string name="btn_request_loan">Получить займ</string>
 

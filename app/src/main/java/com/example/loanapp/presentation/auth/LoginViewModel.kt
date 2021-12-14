@@ -1,11 +1,12 @@
 package com.example.loanapp.presentation.auth
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loanapp.data.remote.model.LoginRequestBody
+import com.example.loanapp.domain.use_case.auth.GetTokenUseCase
 import com.example.loanapp.domain.use_case.auth.LoginUseCase
-import com.example.loanapp.domain.use_case.auth.TokenUseCase
+import com.example.loanapp.domain.use_case.auth.RemoveTokenUseCase
+import com.example.loanapp.domain.use_case.auth.SaveTokenUseCase
 import com.example.loanapp.util.LoginEvent
 import com.example.loanapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,9 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
-    private val tokenUseCase: TokenUseCase
+    private val saveTokenUseCase: SaveTokenUseCase,
+    private val removeTokenUseCase: RemoveTokenUseCase,
+    private val getTokenUseCase: GetTokenUseCase
 ) : ViewModel() {
 
     private val loginEventChannel = Channel<LoginEvent>()
@@ -27,7 +30,7 @@ class LoginViewModel @Inject constructor(
 
 
     fun checkToken() = viewModelScope.launch {
-        tokenUseCase.getSavedToken().collect { token ->
+        getTokenUseCase().collect { token ->
             if (token.isNotBlank()) {
                 loginEventChannel.send(LoginEvent.Success)
             } else {
@@ -62,9 +65,9 @@ class LoginViewModel @Inject constructor(
     }
 
     fun logout() = viewModelScope.launch {
-        tokenUseCase.removeToken()
+        removeTokenUseCase()
         checkToken()
     }
 
-    private suspend fun saveToken(token: String) = tokenUseCase.saveToken(token)
+    private suspend fun saveToken(token: String) = saveTokenUseCase(token)
 }

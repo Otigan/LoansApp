@@ -98,19 +98,23 @@ class RequestLoanFragment : Fragment(R.layout.fragment_request_loan) {
                 val amount = binding.txtFieldAmount.editText?.text.toString().toInt()
                 val firstName = binding.txtFieldFirstName.editText?.text.toString()
                 val lastName = binding.txtFieldLastName.editText?.text.toString()
-                val percent = binding.txtFieldPercent.editText?.text.toString().toDouble()
-                val period = binding.txtFieldPeriod.editText?.text.toString().toInt()
                 val phoneNumber = binding.txtFieldPhoneNumber.editText?.text.toString()
                 val loan =
-                    LoanRequestBody(amount, firstName, lastName, percent, period, phoneNumber)
-                if (checkLoanCondition(loan)) {
+                    LoanRequestBody(
+                        amount,
+                        firstName,
+                        lastName,
+                        loadedLoanCondition.percent,
+                        loadedLoanCondition.period,
+                        phoneNumber
+                    )
+                if (checkMaxAmount(loan)) {
                     binding.progressBarRequestLoan.visibility = View.VISIBLE
                     requestLoanViewModel.requestLoan(loan)
                 }
             }
 
         }
-
     }
 
     private fun navigateToLoanRequestResultFragment(loan_amount: Int) {
@@ -123,32 +127,19 @@ class RequestLoanFragment : Fragment(R.layout.fragment_request_loan) {
         val amount = binding.txtFieldAmount.checkIfNotEmpty()
         val firstName = binding.txtFieldFirstName.checkIfNotEmpty()
         val lastName = binding.txtFieldLastName.checkIfNotEmpty()
-        val percent = binding.txtFieldPercent.checkIfNotEmpty()
-        val period = binding.txtFieldPeriod.checkIfNotEmpty()
         val phoneNumber = binding.txtFieldPhoneNumber.checkIfNotEmpty()
 
-        return amount && firstName && lastName && percent && period && phoneNumber
+        return amount && firstName && lastName && phoneNumber
     }
 
-    private fun checkLoanCondition(loan: LoanRequestBody): Boolean {
+    private fun checkMaxAmount(loan: LoanRequestBody): Boolean {
         return when {
             loan.amount > loadedLoanCondition.maxAmount -> {
                 binding.txtFieldAmount.error = getString(R.string.request_loan_amount_error)
                 false
             }
-            //TODO: эти проверки не нужны значения процента и периода уже заранее известны
-            loan.percent != loadedLoanCondition.percent -> {
-                binding.txtFieldPercent.error = getString(R.string.request_loan_percent_error)
-                false
-            }
-            loan.period != loadedLoanCondition.period -> {
-                binding.txtFieldPeriod.error = getString(R.string.request_loan_period_error)
-                false
-            }
             else -> {
                 binding.txtFieldAmount.error = ""
-                binding.txtFieldPercent.error = ""
-                binding.txtFieldPeriod.error = ""
                 true
             }
         }

@@ -42,8 +42,6 @@
 
     <!--  LoansFragment  -->
     <string name="edit_txt_request_loan_phone_number">Enter your phone number</string>
-    <string name="edit_txt_request_loan_period">Enter the loan period</string>
-    <string name="edit_txt_request_loan_percent">Enter the loan percentage</string>
     <string name="edit_txt_request_loan_lastName">Enter your last name</string>
     <string name="edit_txt_request_loan_firstName">Enter your name</string>
     <string name="edit_txt_request_loan_amount">Enter the loan amount</string>

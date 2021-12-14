@@ -4,6 +4,6 @@ import com.example.loanapp.domain.entity.LoanCondition
 
 interface LoanConditionDataSource {
 
-    suspend fun getLoanCondition(token: String?): LoanCondition
+    suspend fun getLoanCondition(): LoanCondition
 
 }

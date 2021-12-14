@@ -9,10 +9,8 @@ class LoanRequestDataSourceImpl @Inject constructor(private val loansApi: LoansA
     LoanRequestDataSource {
 
     override suspend fun requestLoan(
-        //TODO: зачем вообще передвавать судя опциональный токен?
-        token: String?,
         loanRequestBody: LoanRequestBody
     ): LoanDto =
-        loansApi.requestLoan(token!!, loanRequestBody)
+        loansApi.requestLoan(loanRequestBody)
 
 }

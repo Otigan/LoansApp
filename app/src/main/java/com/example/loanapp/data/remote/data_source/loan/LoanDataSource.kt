@@ -4,5 +4,5 @@ import com.example.loanapp.data.remote.model.LoanDto
 
 interface LoanDataSource {
 
-    suspend fun getAllLoans(token: String?): List<LoanDto>
+    suspend fun getAllLoans(): List<LoanDto>
 }

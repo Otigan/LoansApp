@@ -30,7 +30,7 @@ class LoanRepositoryImpl @Inject constructor(
 
     private val loansDao = loansDatabase.getLoansDao()
 
-    override fun getLoans(token: String): Flow<Resource<List<Loan>>> = networkBoundResource(
+    override fun getLoans(): Flow<Resource<List<Loan>>> = networkBoundResource(
         responseHandler = responseHandler,
         query = {
             loansDao.getAllLoans().map { loanEntities ->
@@ -40,7 +40,7 @@ class LoanRepositoryImpl @Inject constructor(
             }
         },
         fetch = {
-            loanDataSource.getAllLoans(token)
+            loanDataSource.getAllLoans()
         },
         saveFetchResult = { loans ->
             val loanEntities = loans.map { loanDto ->
@@ -54,11 +54,10 @@ class LoanRepositoryImpl @Inject constructor(
     )
 
     override suspend fun requestLoan(
-        token: String,
         loanRequestBody: LoanRequestBody
     ): Resource<Loan> {
         return try {
-            val response = loanRequestDataSource.requestLoan(token, loanRequestBody)
+            val response = loanRequestDataSource.requestLoan(loanRequestBody)
             return responseHandler.handleSuccess(
                 loanMapper.mapLoanDtoToLoan(response)
             )
@@ -67,9 +66,9 @@ class LoanRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getLoanCondition(token: String): Resource<LoanCondition> {
+    override suspend fun getLoanCondition(): Resource<LoanCondition> {
         return try {
-            val response = loanConditionDataSource.getLoanCondition(token)
+            val response = loanConditionDataSource.getLoanCondition()
             return responseHandler.handleSuccess(
                 response
             )

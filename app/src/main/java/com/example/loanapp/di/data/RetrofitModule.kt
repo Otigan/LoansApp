@@ -3,6 +3,7 @@ package com.example.loanapp.di.data
 import android.content.Context
 import com.example.loanapp.data.remote.api.LoansApi
 import com.example.loanapp.data.remote.api.LoansApi.Companion.BASE_URL
+import com.example.loanapp.data.remote.interceptor.TokenInterceptor
 import com.example.loanapp.util.ResponseHandler
 import dagger.Module
 import dagger.Provides
@@ -20,10 +21,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
+
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient =
+    fun provideOkHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient =
         OkHttpClient().newBuilder()
+            .addInterceptor(tokenInterceptor)
             .callTimeout(2, TimeUnit.MINUTES)
             .readTimeout(1, TimeUnit.MINUTES)
             .build()

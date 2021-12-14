@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class GetLoanConditionUseCase @Inject constructor(private val loansRepository: LoanRepository) {
 
-    suspend operator fun invoke(name: String): Resource<LoanCondition> =
-        loansRepository.getLoanCondition(name)
+    suspend operator fun invoke(): Resource<LoanCondition> =
+        loansRepository.getLoanCondition()
 
 }

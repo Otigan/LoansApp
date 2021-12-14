@@ -26,8 +26,9 @@ class LoansAdapter(private val onClick: (Loan) -> Unit) :
                 root.context.apply {
                     txtLoanId.text = getString(R.string.txt_view_loan_id, loanItem.id)
                     txtViewAmount.text = getString(R.string.txt_view_amount, loanItem.amount)
-                    //TODO: опасный момент, теоретически с сервера могут прийти новое состояние, тогда приложение свалиться.
-                    when (LoanState.valueOf(loanItem.state)) {
+                    val state =
+                        LoanState.values().find { it.name == loanItem.state } ?: LoanState.UNKNOWN
+                    when (state) {
                         LoanState.APPROVED -> {
                             txtLoanStatus.text = getString(R.string.txt_view_loan_status_approved)
                             imgLoanStatus.setImageDrawable(

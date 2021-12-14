@@ -9,33 +9,31 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.loanapp.R
 import com.example.loanapp.databinding.ActivityMainBinding
-import com.example.loanapp.util.Common.SELECTED_LANGUAGE
-import com.example.loanapp.util.Localization
+import com.example.loanapp.di.WrapperEntryPoint
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+
     override fun attachBaseContext(newBase: Context) {
-        Localization().setLocale(newBase, Localization().getLanguage(newBase))
-        super.attachBaseContext(Localization().onAttach(newBase))
+        val localeHelper =
+            EntryPointAccessors.fromApplication(
+                newBase,
+                WrapperEntryPoint::class.java
+            ).localeHelper
+        super.attachBaseContext(localeHelper.onAttach(newBase))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
-
-        val lang = sharedPref.getString(SELECTED_LANGUAGE, "en")
-
-        Localization().setLocale(this, lang!!)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
