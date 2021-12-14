@@ -35,15 +35,23 @@
     <string name="txt_loan_detail_success_description">Your application has been approved. Next, you need to choose a way to receive money: to your bank card or to receive money at the branch</string>
     <string name="txt_loan_detail_reject_description">Your application has been rejected. To find out the reason for the refusal to issue a loan, please contact us via the hotline</string>
     <string name="txt_loan_detail_registered_description">Please, wait for your request approval</string>
+    <string name="txt_amount_loan_detail">Amount: %d RUB</string>
+    <string name="txt_date_loan_detail">Date: %s</string>
+    <string name="txt_percent_loan_detail">Percent: %.2f %%</string>
+    <string name="txt_period_loan_detail">Period: %d days</string>
+    <string name="txt_status_approved_loan_detail">State: Approved</string>
+    <string name="txt_status_rejected_loan_detail">State: Rejected</string>
+    <string name="txt_status_registered_loan_detail">State: Registered</string>
+
 
     <!--  RequestLoanFragment  -->
     <string name="edit_txt_request_loan_phone_number">Enter your phone number</string>
     <string name="edit_txt_request_loan_lastName">Enter your last name</string>
     <string name="edit_txt_request_loan_firstName">Enter your name</string>
     <string name="edit_txt_request_loan_amount">Enter the loan amount</string>
-    <string name="txt_view_loan_period">Loan period: %d</string>
-    <string name="txt_view_loan_percent">Loan interest: %.2f</string>
-    <string name="txt_view_loan_max_amount">Maximum loan amount: %d</string>
+    <string name="txt_view_loan_period">Loan period: %d days</string>
+    <string name="txt_view_loan_percent">Loan interest: %.2f %%</string>
+    <string name="txt_view_loan_max_amount">Maximum loan amount: %d RUB</string>
     <string name="txt_view_loan_conditions">Loan terms and conditions</string>
     <string name="btn_request_loan">Get a loan</string>
 
@@ -55,7 +63,7 @@
 
 
     <!--  LoansFragment  -->
-    <string name="txt_view_loan_id">Request number: %d</string>
+    <string name="txt_view_loan_date" translatable="false">%s</string>
 
 
     <!-- Settings   -->

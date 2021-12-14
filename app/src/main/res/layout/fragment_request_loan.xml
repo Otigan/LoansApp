@@ -60,6 +60,7 @@
         android:id="@+id/txt_view_loan_period"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:textColor="?MainTextViewColor"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@id/txt_field_amount"

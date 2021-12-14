@@ -27,17 +27,14 @@
 
     <!--  RequestLoanFragment  -->
     <string name="txt_view_loan_conditions">Условия выдачи займа</string>
-    <string name="txt_view_loan_max_amount">Максимальная сумма займа: %d</string>
-    <string name="txt_view_loan_percent">Процент займа: %.3f </string>
-    <string name="txt_view_loan_period">Период займа: %d</string>
+    <string name="txt_view_loan_max_amount">Максимальная сумма займа: %d РУБ</string>
+    <string name="txt_view_loan_percent">Процент займа: %.2f %%</string>
+    <string name="txt_view_loan_period">Период займа: %d дней</string>
     <string name="edit_txt_request_loan_amount">Введите сумму займа</string>
     <string name="edit_txt_request_loan_firstName">Введите ваше имя</string>
     <string name="edit_txt_request_loan_lastName">Введите вашу фамилию</string>
     <string name="edit_txt_request_loan_phone_number">Введите ваш номер телефона</string>
     <string name="btn_request_loan">Получить займ</string>
-
-    <!--  LoansFragment  -->
-    <string name="txt_view_loan_id">Номер заявки: %d</string>
 
 
     <!--  LoanResultFragment  -->
@@ -59,6 +56,13 @@
         Чтобы узнать причину отказа на выдачу займа, пожалуйста, свяжитесь с нами по горячей линии
     </string>
     <string name="txt_loan_detail_registered_description">Ожидайте рассмотрения вашей заявки</string>
+    <string name="txt_amount_loan_detail">Сумма: %d РУБ</string>
+    <string name="txt_date_loan_detail">Дата: %s</string>
+    <string name="txt_percent_loan_detail">Процент: %.2f %%</string>
+    <string name="txt_period_loan_detail">Срок: %d дней</string>
+    <string name="txt_status_approved_loan_detail">Состояние: принята</string>
+    <string name="txt_status_rejected_loan_detail">Состояние: отклонена</string>
+    <string name="txt_status_registered_loan_detail">Состояние: на рассмотрении</string>
 
     <!--  Settings  -->
     <string name="language_list_title">Выберите язык</string>
