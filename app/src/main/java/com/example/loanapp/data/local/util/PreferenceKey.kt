@@ -1,4 +1,4 @@
-package com.example.loanapp.data.local.repository
+package com.example.loanapp.data.local.util
 
 import androidx.datastore.preferences.core.stringPreferencesKey
 

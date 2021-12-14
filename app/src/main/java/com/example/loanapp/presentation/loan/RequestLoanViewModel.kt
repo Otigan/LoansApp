@@ -3,11 +3,11 @@ package com.example.loanapp.presentation.loan
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loanapp.data.remote.model.LoanRequestBody
-import com.example.loanapp.domain.entity.Loan
-import com.example.loanapp.domain.entity.LoanCondition
+import com.example.loanapp.data.remote.util.Resource
 import com.example.loanapp.domain.use_case.loan.GetLoanConditionUseCase
 import com.example.loanapp.domain.use_case.loan.RequestLoanUseCase
-import com.example.loanapp.util.Resource
+import com.example.loanapp.util.LoanConditionEvent
+import com.example.loanapp.util.LoanRequestEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -15,27 +15,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-sealed class LoanConditionEvent {
-    data class LoanConditionSuccess(val loanCondition: LoanCondition) : LoanConditionEvent()
-    data class ShowSnackBar(val message: String) : LoanConditionEvent()
-}
-
-sealed class LoanRequestEvent {
-    data class Success(val loan: Loan) : LoanRequestEvent()
-    data class ShowSnackbar(val message: String) : LoanRequestEvent()
-    data class ShowProgressBar(val message: String) : LoanRequestEvent()
-}
-
 @HiltViewModel
 class RequestLoanViewModel @Inject constructor(
     private val getLoanConditionUseCase: GetLoanConditionUseCase,
     private val requestLoanUseCase: RequestLoanUseCase,
 ) : ViewModel() {
 
-    private val loanConditionChannel = Channel<LoanConditionEvent>()
+    private val loanConditionChannel = Channel<LoanConditionEvent>(Channel.BUFFERED)
     val loanConditionFlow = loanConditionChannel.receiveAsFlow()
 
-    private val loanChannel = Channel<LoanRequestEvent>()
+    private val loanChannel = Channel<LoanRequestEvent>(Channel.BUFFERED)
     val loanFlow = loanChannel.receiveAsFlow()
 
     fun requestLoan(loanRequestBody: LoanRequestBody) {
@@ -43,14 +32,16 @@ class RequestLoanViewModel @Inject constructor(
             when (val resource = requestLoanUseCase.invoke(loanRequestBody)) {
                 is Resource.Error -> {
                     resource.errorMessage?.let { errorMessage ->
-                        loanChannel.send(LoanRequestEvent.ShowSnackbar(errorMessage))
+                        loanChannel.send(LoanRequestEvent.Error(errorMessage))
                     }
                 }
-                is Resource.Loading -> TODO() //TODO: не забудь убрать это а то свалиться с NotImplementedError
                 is Resource.Success -> {
                     resource.data?.let { loan ->
                         loanChannel.send(LoanRequestEvent.Success(loan))
                     }
+                }
+                is Resource.Loading -> {
+                    loanChannel.send(LoanRequestEvent.Loading)
                 }
             }
         }
@@ -61,18 +52,20 @@ class RequestLoanViewModel @Inject constructor(
             when (val resource = getLoanConditionUseCase()) {
                 is Resource.Error -> {
                     resource.errorMessage?.let { errorMessage ->
-                        loanConditionChannel.send(LoanConditionEvent.ShowSnackBar(errorMessage))
+                        loanConditionChannel.send(LoanConditionEvent.Error(errorMessage))
                     }
                 }
-                is Resource.Loading -> TODO() //TODO: не забудь убрать это а то свалиться с NotImplementedError
                 is Resource.Success -> {
                     resource.data?.let { loanCondition ->
                         loanConditionChannel.send(
-                            LoanConditionEvent.LoanConditionSuccess(
+                            LoanConditionEvent.Success(
                                 loanCondition
                             )
                         )
                     }
+                }
+                is Resource.Loading -> {
+                    loanConditionChannel.send(LoanConditionEvent.Loading)
                 }
             }
         }

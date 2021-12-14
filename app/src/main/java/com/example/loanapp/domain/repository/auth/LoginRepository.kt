@@ -1,8 +1,7 @@
 package com.example.loanapp.domain.repository.auth
 
 import com.example.loanapp.data.remote.model.LoginRequestBody
-import com.example.loanapp.util.Resource
-import kotlinx.coroutines.flow.Flow
+import com.example.loanapp.data.remote.util.Resource
 
 interface LoginRepository {
 

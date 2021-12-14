@@ -1,6 +1,6 @@
 package com.example.loanapp.data.local.repository
 
-import com.example.loanapp.data.local.TokenDataSource
+import com.example.loanapp.data.local.data_source.TokenDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class GetLanguageUseCase @Inject constructor(private val languageDataStoreRepository: LanguageDataStoreRepository) {
 
-    operator fun invoke() = languageDataStoreRepository.getLanguage()
+    suspend operator fun invoke() = languageDataStoreRepository.getLanguage()
 
 }

@@ -12,11 +12,12 @@ import com.example.loanapp.R
 import com.example.loanapp.data.remote.model.LoanRequestBody
 import com.example.loanapp.databinding.FragmentRequestLoanBinding
 import com.example.loanapp.domain.entity.LoanCondition
-import com.example.loanapp.presentation.loan.LoanConditionEvent
-import com.example.loanapp.presentation.loan.LoanRequestEvent
 import com.example.loanapp.presentation.loan.RequestLoanViewModel
 import com.example.loanapp.util.Extensions.checkIfNotEmpty
+import com.example.loanapp.util.Extensions.displayProgressBar
 import com.example.loanapp.util.Extensions.displaySnackbar
+import com.example.loanapp.util.LoanConditionEvent
+import com.example.loanapp.util.LoanRequestEvent
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -47,10 +48,10 @@ class RequestLoanFragment : Fragment(R.layout.fragment_request_loan) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             requestLoanViewModel.loanFlow.collect { event ->
                 when (event) {
-                    is LoanRequestEvent.ShowProgressBar -> {
+                    is LoanRequestEvent.Loading -> {
                         binding.progressBarRequestLoan.visibility = View.VISIBLE
                     }
-                    is LoanRequestEvent.ShowSnackbar -> {
+                    is LoanRequestEvent.Error -> {
                         binding.progressBarRequestLoan.visibility = View.GONE
                         binding.root.displaySnackbar(event.message)
                     }
@@ -66,27 +67,32 @@ class RequestLoanFragment : Fragment(R.layout.fragment_request_loan) {
 
             requestLoanViewModel.loanConditionFlow.collect { event ->
                 when (event) {
-                    is LoanConditionEvent.LoanConditionSuccess -> {
+                    is LoanConditionEvent.Success -> {
                         binding.apply {
-                            event.loanCondition.also { loanCondition ->
-                                loadedLoanCondition = loanCondition
+                            progressBarRequestLoan.displayProgressBar(false)
+                            event.loanCondition.apply {
+                                loadedLoanCondition = this
                                 txtViewLoanMaxAmount.text = getString(
                                     R.string.txt_view_loan_max_amount,
-                                    loanCondition.maxAmount
+                                    maxAmount
                                 )
                                 txtViewLoanPercent.text = getString(
                                     R.string.txt_view_loan_percent,
-                                    loanCondition.percent
+                                    percent
                                 )
                                 txtViewLoanPeriod.text = getString(
                                     R.string.txt_view_loan_period,
-                                    loanCondition.period
+                                    period
                                 )
                             }
                         }
                     }
-                    is LoanConditionEvent.ShowSnackBar -> {
+                    is LoanConditionEvent.Error -> {
                         Snackbar.make(binding.root, event.message, Snackbar.LENGTH_SHORT).show()
+                        binding.progressBarRequestLoan.displayProgressBar(false)
+                    }
+                    LoanConditionEvent.Loading -> {
+                        binding.progressBarRequestLoan.displayProgressBar(true)
                     }
                 }
             }

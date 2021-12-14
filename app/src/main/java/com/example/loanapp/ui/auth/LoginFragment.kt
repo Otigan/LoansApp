@@ -53,6 +53,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     is LoginEvent.Loading -> {
                         binding.progressBarLogin.visibility = View.VISIBLE
                     }
+                    is LoginEvent.Logout -> {
+
+                    }
                 }
             }
         }

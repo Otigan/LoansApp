@@ -2,9 +2,9 @@ package com.example.loanapp.presentation.loan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.loanapp.domain.entity.Loan
+import com.example.loanapp.data.remote.util.Resource
 import com.example.loanapp.domain.use_case.loan.GetAllLoansUseCase
-import com.example.loanapp.util.Resource
+import com.example.loanapp.util.LoanEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
@@ -12,19 +12,13 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed class LoanEvent {
-
-    data class Success(val loans: List<Loan>) : LoanEvent()
-    data class ShowSnackbar(val message: String, val data: List<Loan>) : LoanEvent()
-    data class ShowProgressBar(val message: String) : LoanEvent()
-}
 
 @HiltViewModel
 class LoansViewModel @Inject constructor(
     private val getAllLoansUseCase: GetAllLoansUseCase,
 ) : ViewModel() {
 
-    private val loansEventChannel = Channel<LoanEvent>()
+    private val loansEventChannel = Channel<LoanEvent>(Channel.BUFFERED)
     val loansEventFlow = loansEventChannel.receiveAsFlow()
 
 
@@ -41,7 +35,7 @@ class LoansViewModel @Inject constructor(
                         resource.errorMessage?.let { errorMessage ->
                             resource.data?.let { loans ->
                                 loansEventChannel.send(
-                                    LoanEvent.ShowSnackbar(
+                                    LoanEvent.Error(
                                         errorMessage,
                                         loans
                                     )
@@ -50,7 +44,7 @@ class LoansViewModel @Inject constructor(
                         }
                     }
                     is Resource.Loading -> {
-                        loansEventChannel.send(LoanEvent.ShowProgressBar(""))
+                        loansEventChannel.send(LoanEvent.Loading)
                     }
                 }
             }

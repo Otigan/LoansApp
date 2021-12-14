@@ -56,6 +56,9 @@ class LoansAdapter(private val onClick: (Loan) -> Unit) :
                                 )
                             )
                         }
+                        else -> {
+                            throw IllegalStateException("Unknown state of loan")
+                        }
                     }
                 }
             }

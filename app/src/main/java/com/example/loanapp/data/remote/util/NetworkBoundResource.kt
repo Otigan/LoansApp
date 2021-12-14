@@ -1,4 +1,4 @@
-package com.example.loanapp.util
+package com.example.loanapp.data.remote.util
 
 import kotlinx.coroutines.flow.*
 

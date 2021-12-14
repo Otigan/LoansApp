@@ -3,13 +3,14 @@ package com.example.loanapp.presentation.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loanapp.data.remote.model.LoginRequestBody
+import com.example.loanapp.data.remote.util.Resource
 import com.example.loanapp.domain.use_case.auth.GetTokenUseCase
 import com.example.loanapp.domain.use_case.auth.LoginUseCase
 import com.example.loanapp.domain.use_case.auth.RemoveTokenUseCase
 import com.example.loanapp.domain.use_case.auth.SaveTokenUseCase
 import com.example.loanapp.util.LoginEvent
-import com.example.loanapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -25,22 +26,19 @@ class LoginViewModel @Inject constructor(
     private val getTokenUseCase: GetTokenUseCase
 ) : ViewModel() {
 
-    private val loginEventChannel = Channel<LoginEvent>()
+    private val loginEventChannel = Channel<LoginEvent>(Channel.BUFFERED)
     val loginEventFlow = loginEventChannel.receiveAsFlow()
 
 
-    fun checkToken() = viewModelScope.launch {
+    fun checkToken() = viewModelScope.launch(Dispatchers.IO) {
         getTokenUseCase().collect { token ->
             if (token.isNotBlank()) {
                 loginEventChannel.send(LoginEvent.Success)
-            } else {
-                loginEventChannel.send(LoginEvent.Logout)
             }
         }
     }
 
-    fun login(name: String, password: String) = viewModelScope.launch {
-
+    fun login(name: String, password: String) = viewModelScope.launch(Dispatchers.IO) {
         val resource = loginUseCase(
             LoginRequestBody(
                 name = name,
@@ -64,9 +62,9 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun logout() = viewModelScope.launch {
+    fun logout() = viewModelScope.launch(Dispatchers.IO) {
         removeTokenUseCase()
-        checkToken()
+        loginEventChannel.send(LoginEvent.Logout)
     }
 
     private suspend fun saveToken(token: String) = saveTokenUseCase(token)

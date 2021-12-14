@@ -1,7 +1,6 @@
 package com.example.loanapp.ui.loan
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -12,11 +11,12 @@ import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentLoansBinding
 import com.example.loanapp.domain.entity.Loan
 import com.example.loanapp.presentation.auth.LoginViewModel
-import com.example.loanapp.presentation.loan.LoanEvent
 import com.example.loanapp.presentation.loan.LoansViewModel
 import com.example.loanapp.ui.adapter.LoansAdapter
 import com.example.loanapp.util.Common.sortLoansByDescending
+import com.example.loanapp.util.Extensions.displayProgressBar
 import com.example.loanapp.util.Extensions.displaySnackbar
+import com.example.loanapp.util.LoanEvent
 import com.example.loanapp.util.LoginEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -61,19 +61,21 @@ class LoansFragment : Fragment(R.layout.fragment_loans) {
                 getAllLoans()
                 loansEventFlow.collect { event ->
                     when (event) {
-                        is LoanEvent.ShowSnackbar -> {
-                            binding.progressBarLoans.visibility = View.GONE
-                            binding.root.displaySnackbar(event.message)
+                        is LoanEvent.Error -> {
+                            binding.apply {
+                                progressBarLoans.displayProgressBar(false)
+                                root.displaySnackbar(event.message)
+                            }
                             val loans = event.data
                             loansAdapter.submitList(sortLoansByDescending(loans))
                         }
                         is LoanEvent.Success -> {
-                            binding.progressBarLoans.visibility = View.GONE
+                            binding.progressBarLoans.displayProgressBar(false)
                             val loans = event.loans
                             loansAdapter.submitList(sortLoansByDescending(loans))
                         }
-                        is LoanEvent.ShowProgressBar -> {
-                            binding.progressBarLoans.visibility = View.VISIBLE
+                        is LoanEvent.Loading -> {
+                            binding.progressBarLoans.displayProgressBar(true)
                         }
                     }
                 }

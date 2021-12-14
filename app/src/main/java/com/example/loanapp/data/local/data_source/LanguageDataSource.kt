@@ -1,4 +1,4 @@
-package com.example.loanapp.data.local
+package com.example.loanapp.data.local.data_source
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -6,53 +6,51 @@ import android.os.Build
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import com.example.loanapp.data.local.repository.PreferenceKey
+import com.example.loanapp.data.local.util.PreferenceKey
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 
 class LanguageDataSource @Inject constructor(
-    private val loginDataStore: DataStore<Preferences>,
+    private val dataStore: DataStore<Preferences>,
 ) {
 
-    fun setLocale(context: Context, language: String): Context {
-        runBlocking {
+    suspend fun setLocale(context: Context, language: String = "ru"): Context =
+        withContext(Dispatchers.IO) {
             saveLanguage(language)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return updateResources(context, language)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                updateResources(context, language)
+            }
+            updateResourcesLegacy(context, language)
         }
 
-        return updateResourcesLegacy(context, language)
-    }
-
-    fun getLanguage(): String {
-        val lang: String
-        runBlocking {
-            lang = selectedLanguage.first()
+    suspend fun getLanguage(): String =
+        withContext(Dispatchers.IO) {
+            selectedLanguage.first()
         }
-        return lang
-    }
 
     private suspend fun saveLanguage(language: String) {
-        loginDataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences[PreferenceKey.language] = language
         }
     }
 
-    fun onAttach(context: Context): Context {
-        val lang: String
-        runBlocking {
-            lang = selectedLanguage.first()
+    suspend fun onAttach(context: Context): Context =
+        withContext(Dispatchers.IO) {
+            val lang = selectedLanguage.first()
+            if (lang.isBlank()) {
+                setLocale(context, "ru")
+            } else {
+                setLocale(context, lang)
+            }
         }
-        return setLocale(context, lang)
-    }
 
     private val selectedLanguage: Flow<String> =
-        loginDataStore.data.map { preferences ->
+        dataStore.data.map { preferences ->
             preferences[PreferenceKey.language] ?: ""
         }
 

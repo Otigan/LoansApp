@@ -11,9 +11,9 @@ import com.example.loanapp.data.remote.model.LoanRequestBody
 import com.example.loanapp.domain.entity.Loan
 import com.example.loanapp.domain.entity.LoanCondition
 import com.example.loanapp.domain.repository.loan.LoanRepository
-import com.example.loanapp.util.Resource
-import com.example.loanapp.util.ResponseHandler
-import com.example.loanapp.util.networkBoundResource
+import com.example.loanapp.data.remote.util.Resource
+import com.example.loanapp.data.remote.util.ResponseHandler
+import com.example.loanapp.data.remote.util.networkBoundResource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.example.loanapp.util
+package com.example.loanapp.data.remote.util
 
 import android.content.Context
 import com.example.loanapp.R

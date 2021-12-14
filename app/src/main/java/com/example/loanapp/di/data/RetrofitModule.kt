@@ -2,9 +2,9 @@ package com.example.loanapp.di.data
 
 import android.content.Context
 import com.example.loanapp.data.remote.api.LoansApi
-import com.example.loanapp.data.remote.api.LoansApi.Companion.BASE_URL
 import com.example.loanapp.data.remote.interceptor.TokenInterceptor
-import com.example.loanapp.util.ResponseHandler
+import com.example.loanapp.util.Common.BASE_URL
+import com.example.loanapp.data.remote.util.ResponseHandler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

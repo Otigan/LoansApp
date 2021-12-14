@@ -5,8 +5,8 @@ import com.example.loanapp.data.remote.mapper.UserMapper
 import com.example.loanapp.data.remote.model.RegisterRequestBody
 import com.example.loanapp.domain.entity.User
 import com.example.loanapp.domain.repository.auth.RegisterRepository
-import com.example.loanapp.util.Resource
-import com.example.loanapp.util.ResponseHandler
+import com.example.loanapp.data.remote.util.Resource
+import com.example.loanapp.data.remote.util.ResponseHandler
 import javax.inject.Inject
 
 class RegisterRepositoryImpl @Inject constructor(

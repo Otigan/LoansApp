@@ -19,16 +19,4 @@ class LoanEntityMapper @Inject constructor() {
             state = model.state
         )
 
-    fun mapFromDomainModel(domainModel: Loan): LoanEntity =
-        LoanEntity(
-            id = domainModel.id,
-            amount = domainModel.amount,
-            date = domainModel.date,
-            firstName = domainModel.firstName,
-            lastName = domainModel.lastName,
-            percent = domainModel.percent,
-            period = domainModel.period,
-            phoneNumber = domainModel.phoneNumber,
-            state = domainModel.state
-        )
 }

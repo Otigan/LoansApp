@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.loanapp.R
 import com.example.loanapp.databinding.FragmentLoanDetailBinding
-import com.example.loanapp.domain.entity.LoanState
+import com.example.loanapp.domain.entity.LoanState.*
 
 class LoanDetailFragment : Fragment(R.layout.fragment_loan_detail) {
 
@@ -32,30 +32,30 @@ class LoanDetailFragment : Fragment(R.layout.fragment_loan_detail) {
         val loan = args.loan
 
         binding.apply {
-            val state = LoanState.values().find { it.name == loan.state } ?: LoanState.UNKNOWN
+            val state = values().find { it.name == loan.state } ?: UNKNOWN
             when (state) {
-                LoanState.APPROVED -> {
+                APPROVED -> {
                     txtLoanDetailStatus.text =
                         getString(R.string.txt_loan_detail_status_approved)
                     txtLoanDetailDescription.text =
                         getString(R.string.txt_loan_detail_success_description)
                 }
-                LoanState.REJECTED -> {
+                REJECTED -> {
                     txtLoanDetailStatus.text =
                         getString(R.string.txt_loan_detail_status_rejected)
                     txtLoanDetailDescription.text =
                         getString(R.string.txt_loan_detail_reject_description)
                 }
-                LoanState.REGISTERED -> {
+                REGISTERED -> {
                     txtLoanDetailStatus.text =
                         getString(R.string.txt_loan_detail_status_registered)
                     txtLoanDetailDescription.text =
                         getString(R.string.txt_loan_detail_registered_description)
                 }
+                UNKNOWN -> throw IllegalStateException("Unknown state of loan")
             }
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -34,17 +34,4 @@ class LoanMapper @Inject constructor() {
         )
 
 
-    fun mapLoanToLoanDto(domainModel: Loan): LoanDto =
-        LoanDto(
-            amount = domainModel.amount,
-            date = domainModel.date,
-            firstName = domainModel.firstName,
-            id = domainModel.id,
-            lastName = domainModel.lastName,
-            percent = domainModel.percent,
-            period = domainModel.period,
-            phoneNumber = domainModel.phoneNumber,
-            state = domainModel.state
-        )
-
 }

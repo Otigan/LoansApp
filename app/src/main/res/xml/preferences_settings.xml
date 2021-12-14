@@ -6,8 +6,8 @@
         android:defaultValue="ru"
         android:entries="@array/language_array"
         android:entryValues="@array/language_code"
-        android:key="appLanguage"
+        android:key="@string/settings_language_preference"
         android:title="@string/language_list_title"
-        app:defaultValue="en" />
+        app:defaultValue="ru" />
 
 </PreferenceScreen>

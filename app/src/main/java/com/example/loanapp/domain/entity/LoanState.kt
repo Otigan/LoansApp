@@ -1,6 +1,6 @@
 package com.example.loanapp.domain.entity
 
-enum class LoanState() {
+enum class LoanState {
     APPROVED,
     REJECTED,
     REGISTERED,

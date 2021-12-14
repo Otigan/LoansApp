@@ -20,6 +20,4 @@ object RoomModule {
         Room.databaseBuilder(context, LoansDatabase::class.java, "loans_database")
             .build()
 
-
-
 }

@@ -8,9 +8,6 @@ import retrofit2.http.POST
 
 interface LoansApi {
 
-    companion object {
-        const val BASE_URL = "https://focusstart.appspot.com/"
-    }
 
     @POST("registration")
     suspend fun register(

@@ -6,5 +6,6 @@ import javax.inject.Inject
 
 class AttachUseCase @Inject constructor(private val languageDataStoreRepository: LanguageDataStoreRepository) {
 
-    operator fun invoke(context: Context) = languageDataStoreRepository.onAttach(context)
+    suspend operator fun invoke(context: Context) =
+        languageDataStoreRepository.onAttach(context)
 }

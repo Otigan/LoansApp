@@ -12,10 +12,4 @@ class UserMapper @Inject constructor() {
             role = userDto.role
         )
 
-    fun mapUserToUserDto(user: User): UserDto =
-        UserDto(
-            name = user.name,
-            role = user.role
-        )
-
 }

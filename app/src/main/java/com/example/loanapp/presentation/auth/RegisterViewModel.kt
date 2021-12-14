@@ -3,10 +3,11 @@ package com.example.loanapp.presentation.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.loanapp.data.remote.model.RegisterRequestBody
+import com.example.loanapp.data.remote.util.Resource
 import com.example.loanapp.domain.use_case.auth.RegisterUseCase
 import com.example.loanapp.util.RegisterEvent
-import com.example.loanapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -17,10 +18,10 @@ import javax.inject.Inject
 class RegisterViewModel @Inject constructor(private val registerUseCase: RegisterUseCase) :
     ViewModel() {
 
-    private val userChannel = Channel<RegisterEvent>()
+    private val userChannel = Channel<RegisterEvent>(Channel.BUFFERED)
     val userFlow = userChannel.receiveAsFlow()
 
-    fun register(name: String, password: String) = viewModelScope.launch {
+    fun register(name: String, password: String) = viewModelScope.launch(Dispatchers.IO) {
 
         val resource = registerUseCase(
             RegisterRequestBody(
@@ -37,7 +38,9 @@ class RegisterViewModel @Inject constructor(private val registerUseCase: Registe
             is Resource.Success -> {
                 userChannel.send(RegisterEvent.Success)
             }
-            is Resource.Loading -> TODO() //TODO: не забудь убрать это а то свалиться с NotImplementedError
+            is Resource.Loading -> {
+                userChannel.send(RegisterEvent.Loading)
+            }
         }
     }
 }

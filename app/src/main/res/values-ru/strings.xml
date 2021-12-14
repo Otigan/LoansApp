@@ -7,6 +7,9 @@
     <string name="nav_label_register">Регистрация</string>
     <string name="nav_label_loans">Список займов</string>
     <string name="nav_label_request_loan">Заявка на получение займа</string>
+    <string name="nav_label_settings">Настройки</string>
+    <string name="nav_label_loan_result">Заявка отправлена</string>
+    <string name="nav_label_loan_detailed">Детали заявки</string>
 
 
     <!--  Auth  -->
@@ -16,6 +19,11 @@
     <string name="btn_register">Зарегистрироваться</string>
     <string name="txt_dont_have_account">Нет аккаунта? Зарегистрируйтесь</string>
     <string name="text_input_layout_pass_conf">Повторите ваш пароль</string>
+
+    <!-- Logout   -->
+    <string name="dialog_logout_title">Вы точно хотите выйти из аккаунта?</string>
+    <string name="dialog_logout_positive_button">Да</string>
+    <string name="dialog_logout_negative_button">Нет</string>
 
     <!--  RequestLoanFragment  -->
     <string name="txt_view_loan_conditions">Условия выдачи займа</string>
@@ -37,6 +45,11 @@
     <string name="txt_view_loan_result_amount">Ваша заявка на займ в размере %d RUB будет рассмотрена</string>
     <string name="btn_go_back_to_loans">Вернуться к списку займов</string>
 
+    <!-- Loan Status   -->
+    <string name="txt_view_loan_status_approved">Одобрена</string>
+    <string name="txt_view_loan_status_registered">На рассмотрении</string>
+    <string name="txt_view_loan_status_rejected">Отклонено</string>
+
     <!--  LoanDetailFragment  -->
     <string name="txt_loan_detail_status_approved">Ваша заявка одобрена!</string>
     <string name="txt_loan_detail_status_rejected">Ваша заявка отклонена!</string>
@@ -50,24 +63,18 @@
     <!--  Settings  -->
     <string name="language_list_title">Выберите язык</string>
     <string name="error_no_internet_connection">Отсутствует интернет-соединение</string>
+
+    <!-- Errors   -->
     <string name="error_timeout">Время ожидания ответа истекло</string>
     <string name="error_401">Пользователь не авторизован</string>
     <string name="error_403">Доступ запрещен</string>
     <string name="error_404">Не найдено, пожалуйста, проверьте правильность введенных данных</string>
     <string name="error_unknown">Произошла неизвестная ошибка</string>
-    <string name="txt_view_loan_status_approved">Одобрена</string>
-    <string name="txt_view_loan_status_registered">На рассмотрении</string>
-    <string name="txt_view_loan_status_rejected">Отклонено</string>
-    <string name="nav_label_settings">Настройки</string>
-    <string name="nav_label_loan_result">Заявка отправлена</string>
-    <string name="nav_label_loan_detailed">Детали заявки</string>
     <string name="request_loan_amount_error">Введенная сумма превышает максимальную</string>
-    <string name="request_loan_percent_error">Введенный процент не совпадает с заданным значением</string>
-    <string name="request_loan_period_error">Период не совпадает с заданным значением</string>
-    <string name="dialog_logout_title">Вы точно хотите выйти из аккаунта?</string>
-    <string name="dialog_logout_positive_button">Да</string>
-    <string name="dialog_logout_negative_button">Нет</string>
+
+    <!-- EditTextError  -->
     <string name="empty_field_error">Пожалуйста, заполните это поле</string>
     <string name="password_doesnt_match">Пароли не совпадают</string>
+
 
 </resources>

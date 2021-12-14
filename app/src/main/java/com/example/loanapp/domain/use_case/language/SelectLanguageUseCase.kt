@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class SelectLanguageUseCase @Inject constructor(private val languageDataStoreRepository: LanguageDataStoreRepository) {
 
-    operator fun invoke(context: Context, language: String) =
+    suspend operator fun invoke(context: Context, language: String) =
         languageDataStoreRepository.setLocale(context, language)
 
 }

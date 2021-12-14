@@ -14,6 +14,7 @@ import com.example.loanapp.databinding.FragmentRegisterBinding
 import com.example.loanapp.presentation.auth.RegisterViewModel
 import com.example.loanapp.util.Extensions.checkIfNotEmpty
 import com.example.loanapp.util.Extensions.checkIfPasswordsAreSame
+import com.example.loanapp.util.Extensions.displayProgressBar
 import com.example.loanapp.util.Extensions.displaySnackbar
 import com.example.loanapp.util.RegisterEvent
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,12 +42,18 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             registerViewModel.userFlow.collect { event ->
                 when (event) {
                     is RegisterEvent.Error -> {
-                        binding.root.displaySnackbar(event.message)
+                        binding.apply {
+                            root.displaySnackbar(event.message)
+                            progressBarRegister.displayProgressBar(false)
+                        }
                     }
                     is RegisterEvent.Success -> {
+                        binding.progressBarRegister.displayProgressBar(false)
                         navigateToLoginFragment()
                     }
-                    else -> {}
+                    RegisterEvent.Loading -> {
+                        binding.progressBarRegister.displayProgressBar(true)
+                    }
                 }
             }
         }

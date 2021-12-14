@@ -1,4 +1,4 @@
-package com.example.loanapp.util
+package com.example.loanapp.data.remote.util
 
 sealed class Resource<T>(
     val data: T? = null,

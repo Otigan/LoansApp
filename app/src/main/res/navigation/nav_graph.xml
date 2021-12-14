@@ -2,8 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/selectLanguageFragment">
+    app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.loanapp.ui.auth.LoginFragment"
@@ -97,15 +96,4 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.loanapp.ui.settings.SettingsFragment"
         android:label="@string/nav_label_settings" />
-    <fragment
-        android:id="@+id/selectLanguageFragment"
-        android:name="com.example.loanapp.ui.language.SelectLanguageFragment"
-        android:label="fragment_select_language"
-        tools:layout="@layout/fragment_select_language">
-        <action
-            android:id="@+id/action_selectLanguageFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/selectLanguageFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
 </navigation>
